@@ -1,5 +1,5 @@
 * {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Segoe UI Emoji","Segoe UI Symbol";
   font-weight: 300;
 }
 
@@ -13,42 +13,66 @@ body {
   display: flex;
   -ms-flex-align: center;
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
   background-color: #f5f5f5;
 }
 
-.login {
+h1 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  text-align: center;
+  width: 100%;
+}
+
+form {
+  margin: auto;
   width: 100%;
   max-width: 330px;
   padding: 15px;
   margin: auto;
 }
 
-.login .checkbox {
+form .checkbox {
   font-weight: 400;
 }
 
-.login .control {
+form input {
   position: relative;
   box-sizing: border-box;
   height: auto;
   padding: 10px;
   font-size: 16px;
+  width: 100%;
+  margin-bottom: 5px;
+  border-radius: .3rem;
+  border: 1px solid #aaaaaa;
 }
 
-.login .control:focus {
+form input:focus {
   z-index: 2;
+  box-shadow: 1px 1px 14px 0px #007bff;
+  border: 1px solid #007bff;
 }
 
-.login input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+form input:last-of-type {
+  margin-bottom: 15px;
 }
 
-.login input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+form button {
+  width: 100%;
+  color: #fff;
+  background-color: #007bff;
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: .3rem;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 0px solid transparent;
+}
+
+form .copyright {
+  width: 100%;
+  text-align: center;
 }
