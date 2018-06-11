@@ -3,7 +3,7 @@
 // ##############
 
 // Initialize Firebase - Jose
-var config1 = {
+var configJose = {
     apiKey: "AIzaSyDsSLDLeFP6WKwgoDtzRAUorwIKjkJdbsQ",
     authDomain: "proyectomaqueta-taos.firebaseapp.com",
     databaseURL: "https://proyectomaqueta-taos.firebaseio.com",
@@ -12,7 +12,7 @@ var config1 = {
     messagingSenderId: "122308663118"
 };
 // Initialize Firebase - Antonio
-var config2 = {
+var configAntonio = {
     apiKey: "AIzaSyBy8H9nO1IhV5Ge6mzL6rLucCYHAj0AUV4",
     authDomain: "juegosdemesa-96f29.firebaseapp.com",
     databaseURL: "https://juegosdemesa-96f29.firebaseio.com",
@@ -22,32 +22,42 @@ var config2 = {
 };
 
 // Inicializacion de las BBDD
-firebase.initializeApp(config1);
-var db = firebase.database();
-var tablePlayers = db.ref("players");
-var tableGameF1 = db.ref("gameF1");
+firebase.initializeApp(configJose);
+
+var db              = firebase.database();
+var tablePlayers    = db.ref("players");
+var tableGameF1     = db.ref("gameF1");
 
 // ##############
 // ### Users ####
 // ##############
 
-// Inserta usuario
+/**
+ * Inserta un usuario en la Realtime Database de firebase.
+ * @param {Map} user Información del usuario que se desea insertar.
+ */
 function insertUser(user) { 
     var updates = {};
     updates[user.name] = user;  
     return tablePlayers.update(updates);
 }
-// Encuentra un valor en una tabla
+
+/**
+ * Encuentra un valor en una tabla
+ */
 function findUser(name){
     var resul = false;
-    var promise = new Promise(function (resolve, reject) {
+    /*var promise = new Promise(function (resolve, reject) {
         tablePlayers.orderByChild('name').equalTo(name).limitToFirst(1).on("value", function(snapshot) {
             snapshot.forEach(function(data) {
                  resul = data.val();
             });  
             (!resul) ? reject() : resolve(resul);            
         });
-    });
+    });*/
+
+    var promise = tablePlayers.equalTo(name).limitToFirst(1).once("value");
+
     return promise; 
 }
 
@@ -55,24 +65,34 @@ function findUser(name){
 // ###############
 // ### Matchs ####
 // ###############
-// Inserta partida F1
+
+/**
+ * Inserta una nueva partida de F1.
+ * @param {Map} match Información de una nueva partida de F1.
+ */
 function insertMatchsF1(match) { 
     var newKey = tableGame1.push().key;  
     var updates = {};
     updates[newKey] = match;  
     return tableGameF1.update(updates);
 }
-// Encuentra todas las partidas F1
+
+/**
+ * Encuentra todas las partidas de F1
+ */
 function findAllMatchsF1(){   
     var resul = [];
-    var promise = new Promise(function (resolve, reject) {
+    /*var promise = new Promise(function (resolve, reject) {
         tableGameF1.on("value", function(snapshot) {
             snapshot.forEach(function(data) {
                 resul.push(data.val());
             });  
             (!resul.length > 0) ? reject() : resolve(resul);         
         });        
-    });
+    });*/
+
+    var promise = tableGameF1.once("value");
+
     return promise; 
 }
 
@@ -82,10 +102,12 @@ function findAllMatchsF1(){
 // ### Developers Utils     ####
 // #############################
 
-// Inicializacion de variables de ejemplos
+/**
+ * Inicializacion de la BBDD con datos de ejemplos
+ */
 function initializeDB() { 
     // Users
-    var person1 = { name: "Jose", pass: "1111"};
+    var person1 = {name: "Jose", pass: "1111"};
     var person2 = {name: "Antonio", pass: "2222"};
     insertUser(person1);
     insertUser(person2);
@@ -95,15 +117,15 @@ function initializeDB() {
         jugadorA: "Jose",
         jugadorB: "Pepe",
         turno: "Rojo", 
-        distanciaRojo: 0,
-        distanciaAzul: 0
+        distanciaRojo: 10,
+        distanciaAzul: 20
     }
     var match2 = {
         jugadorA: "Jose",
         jugadorB: "Antonio",
         turno: "Rojo", 
-        distanciaRojo: 0,
-        distanciaAzul: 0
+        distanciaRojo: 61,
+        distanciaAzul: 49
     }
     var match3 = {
         jugadorA: "Maria",
