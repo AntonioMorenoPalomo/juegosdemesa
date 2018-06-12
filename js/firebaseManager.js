@@ -2,24 +2,8 @@
 // ### DDBB  ####
 // ##############
 
-// Initialize Firebase - Jose
-var configJose = {
-    apiKey: "AIzaSyDsSLDLeFP6WKwgoDtzRAUorwIKjkJdbsQ",
-    authDomain: "proyectomaqueta-taos.firebaseapp.com",
-    databaseURL: "https://proyectomaqueta-taos.firebaseio.com",
-    projectId: "proyectomaqueta-taos",
-    storageBucket: "proyectomaqueta-taos.appspot.com",
-    messagingSenderId: "122308663118"
-};
-// Initialize Firebase - Antonio
-var configAntonio = {
-    apiKey: "AIzaSyBy8H9nO1IhV5Ge6mzL6rLucCYHAj0AUV4",
-    authDomain: "juegosdemesa-96f29.firebaseapp.com",
-    databaseURL: "https://juegosdemesa-96f29.firebaseio.com",
-    projectId: "juegosdemesa-96f29",
-    storageBucket: "juegosdemesa-96f29.appspot.com",
-    messagingSenderId: "473742468533"
-};
+// Tokens de acceso a firebase
+// Se cogerán de tokens.js, fichero que será incluido en el .gitignore
 
 // Inicializacion de las BBDD
 firebase.initializeApp(configJose);
