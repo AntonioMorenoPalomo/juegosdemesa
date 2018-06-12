@@ -3,6 +3,8 @@
 // ##############
 
 
+// Tokens de acceso a firebase
+// Se cogerán de tokens.js, fichero que será incluido en el .gitignore
 
 // Inicializacion de las BBDD
 firebase.initializeApp(firebaseConfig);
