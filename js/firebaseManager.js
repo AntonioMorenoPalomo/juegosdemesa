@@ -2,27 +2,10 @@
 // ### DDBB  ####
 // ##############
 
-// Initialize Firebase - Jose
-var configJose = {
-    apiKey: "AIzaSyDsSLDLeFP6WKwgoDtzRAUorwIKjkJdbsQ",
-    authDomain: "proyectomaqueta-taos.firebaseapp.com",
-    databaseURL: "https://proyectomaqueta-taos.firebaseio.com",
-    projectId: "proyectomaqueta-taos",
-    storageBucket: "proyectomaqueta-taos.appspot.com",
-    messagingSenderId: "122308663118"
-};
-// Initialize Firebase - Antonio
-var configAntonio = {
-    apiKey: "AIzaSyBy8H9nO1IhV5Ge6mzL6rLucCYHAj0AUV4",
-    authDomain: "juegosdemesa-96f29.firebaseapp.com",
-    databaseURL: "https://juegosdemesa-96f29.firebaseio.com",
-    projectId: "juegosdemesa-96f29",
-    storageBucket: "juegosdemesa-96f29.appspot.com",
-    messagingSenderId: "473742468533"
-};
+
 
 // Inicializacion de las BBDD
-firebase.initializeApp(configJose);
+firebase.initializeApp(firebaseConfig);
 
 var db              = firebase.database();
 var tablePlayers    = db.ref("players");
@@ -71,7 +54,7 @@ function findUser(name){
  * @param {Map} match Información de una nueva partida de F1.
  */
 function insertMatchsF1(match) { 
-    var newKey = tableGame1.push().key;  
+    var newKey = tableGameF1.push().key;  
     var updates = {};
     updates[newKey] = match;  
     return tableGameF1.update(updates);

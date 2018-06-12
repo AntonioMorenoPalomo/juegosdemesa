@@ -1,32 +1,30 @@
 
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SelectGame</title>
-    <!-- CSS -->
-    <!-- <link href="libs/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="css/index.css" rel="stylesheet">
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>SelectGame</title>
 
-  <body onload="onLoad()" class="text-center">
-    <form id="select" class="form-signin">
-      <h1 class="h3 mb-3 font-weight-normal">¡Elije tu partida!</h1>
+        <!-- CSS -->
+        <link href="css/index.css" rel="stylesheet">
 
-      <select class="form-control" id="gameOption">
-          <option>Elije una opcion:</option>
-      </select>
-      </br>
+        <!-- Firebase y nuestro -->
+        <script src="libs/jquery-slim.min.js"></script>
+        <script src="libs/firebase.js"></script>
+        <script src="js/firebaseManager.js"></script>
+        <script src="js/selectgame.js"></script>
+    </head>
 
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-    </form>
+    <body class="text-center">
+        <form id="select" class="form-signin">
+            <h1>¡Elije tu partida!</h1>
 
+            <select id="gameOption">
+                <option>Elije una opcion:</option>
+            </select>
 
-    <!-- Firebase y nuestro -->
-    <script src="libs/jquery-slim.min.js"></script>
-    <script src="libs/firebase.js"></script>
-    <script src="js/firebaseManager.js"></script>
-    <script src="js/selectgame.js"></script>
-  </body>
+            <button type="submit">Entrar</button>
+        </form>
+    </body>
 </html>
