@@ -1,0 +1,44 @@
+* {
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Segoe UI Emoji","Segoe UI Symbol";
+    font-weight: 300;
+}
+
+h1 {
+    text-align: center;
+}
+
+.buttonSelector {
+    display: inline-block;
+    margin: 40px;
+    height: 197px;
+    width: 130px;
+    box-shadow: 0px 0px 10px gray;
+    cursor: pointer;
+}
+
+.buttonSelector:hover {
+    box-shadow: 0px 0px 20px gray;
+}
+
+.buttonSelector img {
+    width: 90px;
+    margin: 20px;
+}
+
+.buttonSelector div {
+    text-align: center;
+    background: lightgray;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: -20px;
+    padding: 10px;
+    height: 63px;
+    max-height: 63px;
+    min-height: 63px;
+}
+
+.buttonSelector:hover div {
+    font-weight: 500;
+}
+  

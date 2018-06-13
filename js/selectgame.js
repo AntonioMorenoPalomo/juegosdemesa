@@ -12,18 +12,40 @@ $(document).ready(function() {
 
 /**
  * Muestra todos los partidos encontrados.
- * @param {Map} snapshot Captura de lo que se encuentra en la base de datos.
+ * @param {Array} matches Listado de todas las partidas presentes.
  */
-function _matchesFound(snapshot) {
-    snapshot.forEach(function(matchSnapshot) {
-        var match = matchSnapshot.val();
-        var description = match.jugadorA + " VS " + match.jugadorB;
-
-        $('#gameOption').append($('<option>', { 
-            value: description,
-            text : description 
-        }));
+function _matchesFound(matches) {
+    this._addMatch("-1", "Nueva partida", "img/add.svg", "<br>Nueva partida<br>", function() {
+        alert("Creada... tu solo tienes que imaginarte un nuevo botón");
     });
+
+    matches.forEach(function(match) {
+        var description = match.jugadorA + "<br>VS<br>" + match.jugadorB;
+
+        this._addMatch(match.key, "Formula 1", "img/cocheRojo.svg", description, function() {
+            window.location = "f1.html?key=" + match.key;
+        });
+    });
+}
+
+/**
+ * Añade un partido con el formato establecido.
+ * @param {String} gameKey Clave del partido.
+ * @param {String} gameName Nombre del juego.
+ * @param {String} gameImg Imagen del juego.
+ * @param {String} text Texto a mostrar en el botón.
+ * @param {Function} onclick Acción a llevar a cabo cuando se pulse el botón.
+ */
+function _addMatch(gameKey, gameName, gameImg, text, onclick) {
+    var button = $("<div>", {class: "buttonSelector", "data-match-key": gameKey});
+    var image = $("<img>", {src: gameImg, title: gameName});
+    var users = $("<div>", {html: text});
+
+    button.append(image).append(users);
+
+    if (onclick) button.on("click", onclick);
+
+    $("#matches").append(button);
 }
 
 /**

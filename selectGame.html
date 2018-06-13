@@ -7,25 +7,23 @@
         <title>SelectGame</title>
 
         <!-- CSS -->
-        <link href="css/index.css" rel="stylesheet">
+        <link href="css/selectGame.css" rel="stylesheet">
 
         <!-- Firebase y nuestro -->
         <script src="libs/jquery-slim.min.js"></script>
         <script src="libs/firebase.js"></script>
         <script src="js/tokens.js"></script>
         <script src="js/firebaseManager.js"></script>
-        <script src="js/selectgame.js"></script>
+        <script src="js/selectGame.js"></script>
     </head>
 
     <body class="text-center">
-        <form id="select" class="form-signin">
-            <h1>¡Elije tu partida!</h1>
+        <h1>¡Elije tu partida!</h1>
+        
+        <p>Estas son todas las pertidas que hemos encontrado tuyas sin acabar en el sistema.</p>
 
-            <select id="gameOption">
-                <option>Elije una opcion:</option>
-            </select>
+        <div id="matches">
 
-            <button type="submit">Entrar</button>
-        </form>
+        </div>
     </body>
 </html>

@@ -24,7 +24,7 @@ var tableGameF1     = db.ref("gameF1");
 function insertUser(user) { 
     var updates = {};
     updates[user.name] = user;  
-    return tablePlayers.update(updates);
+    return tablePlayers.set(updates);
 }
 
 /**
@@ -32,16 +32,19 @@ function insertUser(user) {
  */
 function findUser(name){
     var resul = false;
-    /*var promise = new Promise(function (resolve, reject) {
-        tablePlayers.orderByChild('name').equalTo(name).limitToFirst(1).on("value", function(snapshot) {
+    
+    var promise = new Promise(function (resolve, reject) {
+        tablePlayers.orderByChild('name').equalTo(name).once("value", function(snapshot) {
             snapshot.forEach(function(data) {
-                 resul = data.val();
-            });  
-            (!resul) ? reject() : resolve(resul);            
-        });
-    });*/
+                var value = data.val();
+                value.key = data.key;
 
-    var promise = tablePlayers.equalTo(name).limitToFirst(1).once("value");
+                resul.push(value);
+            });  
+
+            (resul) ? resolve(resul) : reject();            
+        });
+    });
 
     return promise; 
 }
@@ -59,7 +62,7 @@ function insertMatchsF1(match) {
     var newKey = tableGameF1.push().key;  
     var updates = {};
     updates[newKey] = match;  
-    return tableGameF1.update(updates);
+    return tableGameF1.set(updates);
 }
 
 /**
@@ -67,16 +70,18 @@ function insertMatchsF1(match) {
  */
 function findAllMatchsF1(){   
     var resul = [];
-    /*var promise = new Promise(function (resolve, reject) {
-        tableGameF1.on("value", function(snapshot) {
-            snapshot.forEach(function(data) {
-                resul.push(data.val());
-            });  
-            (!resul.length > 0) ? reject() : resolve(resul);         
-        });        
-    });*/
 
-    var promise = tableGameF1.once("value");
+    var promise = new Promise(function (resolve, reject) {
+        tableGameF1.once("value", function(snapshot) {
+            snapshot.forEach(function(data) {
+                var value = data.val();
+                value.key = data.key;
+
+                resul.push(value);
+            });  
+            (resul.length <= 0) ? reject() : resolve(resul);         
+        });        
+    });
 
     return promise; 
 }
