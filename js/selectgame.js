@@ -1,12 +1,12 @@
 $(document).ready(function() {
     // Aplicamos acción al submit
-    $("#select").submit(function( event ) {   
+    /*$("#select").submit(function( event ) {   
         location.href ="f1.html";
         event.preventDefault();
-    });
+    });*/
 
     // Buscamos todos los partidos y los cargamos
-    findAllMatchsF1().then(_matchesFound, error).catch(error);
+    FIREBASE.findAllMatchsF1().then(_matchesFound, error).catch(error);
 });
 
 

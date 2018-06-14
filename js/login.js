@@ -8,7 +8,7 @@ $(document).ready(function() {
 function login(event) {
     var userName = $('#username').val();  
 
-    findUser(userName).then(function(user) {        
+    FIREBASE.findUser(userName).then(function(user) {        
         var userPass = $('#userpass').val();  
         
         if (user.pass == userPass){

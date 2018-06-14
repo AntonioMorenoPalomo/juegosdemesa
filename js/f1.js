@@ -1,7 +1,5 @@
 
 var F1 = F1 || {
-    database : undefined,
-    store : undefined,
     match : undefined,
     matchKey : undefined
 }
@@ -12,38 +10,8 @@ $(window).resize(function() {
 
 function onLoad() {
     // Initialize Firebase
-    F1.database = db;
     F1.store = tableGameF1;
     
-    /*var contact = F1.database.ref("contacts").push();
-    var person = {name: "Antonio", phone: "665544332", color: "Verde"};
-
-    let promise = contact.update(person);
-
-    contacts.on('value', function(snapshot) {
-        var body = document.getElementsByTagName("body")[0];
-
-        body.innerHTML = "";
-
-        snapshot.forEach(function(childSnapshot) {
-            var childKey = childSnapshot.key;
-            var childData = childSnapshot.val();
-
-            for (var key in childData) {
-                body.innerHTML += key + " = " + childData[key] + "<br>";
-            }
-            
-            body.innerHTML += "------------------------<br>";
-        });
-    });*/
-
-    
-
-    /*F1.store.on("child_changed", function(snapshot) {
-        F1.match = snapshot.value;
-
-        repintarPartida(F1.match);
-    });*/
 
     $("#dice").on("click", throwDice);
     $("#newMatch").on("click", loadOrCreateMatch);
@@ -51,12 +19,32 @@ function onLoad() {
         repaintMatch(F1.match);
     });
 
-    loadOrCreateMatch();
+
+    console.log("Window.location = ");
+    console.dir(window.location);
+
+    var search = window.location.search;
+
+    if (search && search.indexOf("key=") > 0) {
+        F1.matchKey = search.substring(search.indexOf("key=") + 4);
+
+        if (F1.matchKey.indexOf("&") >= 0) {
+            F1.matchKey = F1.matchKey.substring(0, F1.matchKey.indexOf("&"));
+        }
+
+        loadMatch(F1.matchKey);
+    }
 }
 
-function loadOrCreateMatch() {
+function loadMatch(key) {
     var found = false;
 
+    FIREBASE.findF1Match(key).then(function(data) {
+        F1.match = data;
+        repaintMatch(F1.match);
+        detectChange();
+    });
+/*
     F1.store.once("value", function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
            let childData = childSnapshot.val();
@@ -86,7 +74,7 @@ function loadOrCreateMatch() {
         }
 
         detectChange();
-    });
+    });*/
 }
 
 /**
