@@ -17,19 +17,21 @@
     </head>
 
     <body class="text-center">
-        <form>
+        <div class="form">
             <h1>¡Identif&iacute;cate!</h1>
-
+            
             <!--label for="text" class="sr-only">Usuario</label-->
-            <input type="text" id="username" placeholder="Usuario" required autofocus>
+            <input type="email" id="email" placeholder="usuario@email.com" required autofocus>
+            <div id="emailError" class="errorPanel"></div>
 
             <!--label for="inputPassword" class="sr-only">Contrase&ntilde;a</label-->
-            <input type="password" id="userpass" placeholder="Contraseña" required>
+            <input type="password" id="password" placeholder="p4s5w0rd" required>
+            <div id="passwordError" class="errorPanel"></div>
 
             <button id="login" class="btn loginBtn" type="submit">Identificar</button>
             <button id="register" class="btn registerBtn">Registrar</button>
 
             <p class="copyright">&copy; KiwiSoftware 2018</p>
-        </form>
+        </div>
     </body>
 </html>

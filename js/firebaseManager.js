@@ -26,14 +26,13 @@ FIREBASE.load = function() {
 // ##########################################
 
 /**
- * Inserta un usuario en la Realtime Database de firebase.
- * @param {Map} user Información del usuario que se desea insertar.
+ * Crea un nuevo usuario con su email y contraseña.
+ * @param {STring} email Email que se desea registrar.
+ * @param {String} password Contraseña asignada al email.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.insertUser = function(user) { 
-    var updates = {};
-    updates[user.name] = user;  
-    return FIREBASE.table.players.update(updates);
+FIREBASE.createUser = function(email, password) {
+    return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
 /**
@@ -41,7 +40,10 @@ FIREBASE.insertUser = function(user) {
  * @param {String} name Nombre del usuario a encontrar.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findUser = function(name) {
+FIREBASE.login = function(email, password) {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+
+/*
     var result = [];
     
     var promise = new Promise(function (resolve, reject) {
@@ -60,7 +62,7 @@ FIREBASE.findUser = function(name) {
         });
     });
 
-    return promise; 
+    return promise; */
 }
 
 
