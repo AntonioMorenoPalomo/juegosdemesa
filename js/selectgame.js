@@ -7,6 +7,16 @@ $(document).ready(function() {
 
     // Buscamos todos los partidos y los cargamos
     FIREBASE.findAllMatchsF1().then(_matchesFound, error).catch(error);
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          $("#welcome").text("Bienvenido " + user.email);
+          console.dir(user);
+        } else {
+          alert("No hay usuario conectado");
+        }
+      });
+      
 });
 
 

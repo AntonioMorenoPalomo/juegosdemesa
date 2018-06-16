@@ -3,6 +3,58 @@
     font-weight: 300;
 }
 
+header {
+    margin: 0px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #444;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100px;
+    color: white;
+}
+
+header > img {
+    width: 80px;
+    margin: 10px;
+    display: inline-block;
+}
+
+header .middlePanel {
+    width: calc(100% - 200px);
+    font-size: 2rem;
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    padding: 15px 0px;
+}
+
+header .middlePanel div {
+    width: 100%;
+}
+
+header #welcome {
+    font-size: 0.8rem;
+}
+
+header .menu {
+    width: 50px;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    text-align: center;
+}
+
+header .menu img {
+    width: 80%;
+}
+
+section {
+    margin-top: 100px;
+}
+
 h1 {
     text-align: center;
 }

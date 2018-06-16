@@ -42,27 +42,6 @@ FIREBASE.createUser = function(email, password) {
  */
 FIREBASE.login = function(email, password) {
     return firebase.auth().signInWithEmailAndPassword(email, password);
-
-/*
-    var result = [];
-    
-    var promise = new Promise(function (resolve, reject) {
-        FIREBASE.table.players.orderByChild('name').equalTo(name).once("value", function(snapshot) {
-            snapshot.forEach(function(data) {
-                var value = data.val();
-                value.key = data.key;
-
-                result.push(value);
-            });  
-
-            if (result && result.length == 1 && resolve) 
-                resolve(result[0]);
-            else if ((!result || result.length != 1) && reject) 
-                reject();            
-        });
-    });
-
-    return promise; */
 }
 
 
