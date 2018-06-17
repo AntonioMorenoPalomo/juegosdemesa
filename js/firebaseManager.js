@@ -27,7 +27,7 @@ FIREBASE.load = function() {
 
 /**
  * Crea un nuevo usuario con su email y contraseña.
- * @param {STring} email Email que se desea registrar.
+ * @param {String} email Email que se desea registrar.
  * @param {String} password Contraseña asignada al email.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
@@ -35,6 +35,19 @@ FIREBASE.createUser = function(email, password) {
     return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
+/**
+ * Actualiza los parametros de un usuario
+ * @param {String} nick nick que se desea registrar.
+ * @param {String} urlAvatar urlAvatar que se desea registrar.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.updateProfile = function(nick, urlAvatar) {
+    const data = {
+        displayName: nick,
+        photoURL: urlAvatar
+    };
+    return firebase.auth().currentUser.updateProfile(data);
+}
 /**
  * Encuentra un susuario en la tabla de jugadores.
  * @param {String} name Nombre del usuario a encontrar.
@@ -44,8 +57,12 @@ FIREBASE.login = function(email, password) {
     return firebase.auth().signInWithEmailAndPassword(email, password);
 }
 
-
-
+/**
+ * Desloguea al usuario activo
+ */
+FIREBASE.logout = function() {
+    return firebase.auth().signOut();
+} 
 
 // ##########################################
 // ###              Matches              ####
@@ -57,7 +74,7 @@ FIREBASE.login = function(email, password) {
  * @return {Promise} Devuelve la promesa de la actualización.
  */
 FIREBASE.insertMatchsF1 = function(match) { 
-    var newKey = tableGameF1.push().key;  
+    var newKey = FIREBASE.table.games.f1.push().key;  
     var updates = {};
     updates[newKey] = match;  
     return FIREBASE.table.games.f1.update(updates);
@@ -79,10 +96,11 @@ FIREBASE.findAllMatchsF1 = function(){
                 result.push(value);
             });  
             
-            if (result && resolve) 
+            if (result && resolve){ 
                 resolve(result);
-            else if (!result && reject) 
+            } else if (!result && reject) {
                 reject();       
+            }
         });        
     });
 
@@ -98,8 +116,7 @@ FIREBASE.findF1Match = function(key){
     var result = [];
 
     var promise = new Promise(function (resolve, reject) {
-        db.ref("games/f1/" + key).once("value", function(snapshot) {
-        //tableGameF1.orderByChild('name').equalTo(name).once("value", function(snapshot) {
+        FIREBASE.db.ref("games/f1/" + key).once("value", function(snapshot) {
             snapshot.forEach(function(data) {
                 var value = data.val();
                 value.key = data.key;
@@ -118,7 +135,6 @@ FIREBASE.findF1Match = function(key){
 }
 
 
-
 // #############################
 // ### Developers Utils     ####
 // #############################
@@ -127,13 +143,6 @@ FIREBASE.findF1Match = function(key){
  * Inicializacion de la BBDD con datos de ejemplos
  */
 FIREBASE.initializeDB = function() { 
-    // Users
-    var person1 = {name: "Jose", pass: "1111"};
-    var person2 = {name: "Antonio", pass: "2222"};
-    insertUser(person1);
-    insertUser(person2);
-
-    // Match 1
     var match1 = {
         jugadorA: "Jose",
         jugadorB: "Pepe",
@@ -155,26 +164,27 @@ FIREBASE.initializeDB = function() {
         distanciaRojo: 0,
         distanciaAzul: 0
     }
+    var match4 = {
+        jugadorA: "",
+        jugadorB: "Antonio",
+        turno: "Rojo", 
+        distanciaRojo: 0,
+        distanciaAzul: 0
+    }
+    var match5 = {
+        jugadorA: "Taos",
+        jugadorB: "",
+        turno: "Rojo", 
+        distanciaRojo: 0,
+        distanciaAzul: 0
+    }
 
-   /* var updates = {};
-    var key = FIREBASE.table.game.f1.push().key;
-    updates[key] = match1;  
-
-    key = FIREBASE.table.game.f1.push().key;
-    updates[key] = match2;
-
-    key = FIREBASE.table.game.f1.push().key;
-    updates[key] = match3;
-
-    FIREBASE.table.game.f1.update(updates);*/
     FIREBASE.insertMatchsF1(match1);
     FIREBASE.insertMatchsF1(match2);
     FIREBASE.insertMatchsF1(match3);
+    FIREBASE.insertMatchsF1(match4);
+    FIREBASE.insertMatchsF1(match5);
 }
-
-
-
-
 
 $(document).ready(function() {
     FIREBASE.load();

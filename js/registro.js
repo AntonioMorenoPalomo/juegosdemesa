@@ -1,10 +1,9 @@
 $(document).ready(function() {        
-    $("form").submit(login);
-    $("#login").on("click", login);
+    $("form").submit(register);
     $("#register").on("click", register);
 });
 
-function login() {
+function register() {
     var email = $("#email").val();
     var password = $("#password").val();
 
@@ -14,42 +13,46 @@ function login() {
     $("#email").removeClass("error");
     $("#password").removeClass("error");
     
-    FIREBASE.login(email, password).then(successLogin, errorLogin).catch(function(error) {
+    FIREBASE.createUser(email, password, nick, urlAvatar).then(successRegister, errorRegister).catch(function(error) {
         alert("Se ha producido un error.\n" + error);
     });
 }
 
-function register() {
-    location.href ="registro.html";
-}
-
-function successLogin(data) {
-    if (data && data.user){
-        location.href ="selectGame.html";
+function successRegister(user) { 
+    if (user) {
+        var nick = $("#nick").val();
+        var urlAvatar = $("#urlAvatar").val();
+        FIREBASE.updateProfile(nick, urlAvatar).then(successUpdate);
     } else {
-        alert("No se ha identificar el usuario");
+        alert("No se ha podido crear el usuario");
     }
 }
 
-function errorLogin(error) {
+function successUpdate(){
+    alert("El usuario se ha creado correctamente");
+    location.href ="selectGame.html";
+}
+
+
+function errorRegister(error) {
     switch (error.code) {
         case "auth/invalid-email":
             $("#emailError").text("El email no tiene un formato correcto");
             $("#emailError").show(250);
             $("#email").addClass("error");
             break;
-        case "auth/user-not-found":
-            $("#emailError").text("El email no ha sido encontrado");
+        case "auth/email-already-in-use":
+            $("#emailError").text("El email ya está registrado");
             $("#emailError").show(250);
             $("#email").addClass("error");
             break;
-        case "auth/wrong-password": 
-            $("#passwordError").text("La contraseña es incorrecta");
+        case "auth/weak-password": 
+            $("#passwordError").text("La contraseña debe tener al menos 6 caracteres");
             $("#passwordError").show(250);
             $("#password").addClass("error");
             break;
-        case "auth/user-disabled":
-            $("#passwordError").text("El usuario no está habilitado");
+        case "auth/operation-not-allowed":
+            $("#passwordError").text("El registro no está habilitado");
             $("#passwordError").show(250);
             $("#password").addClass("error");
             $("#email").addClass("error");

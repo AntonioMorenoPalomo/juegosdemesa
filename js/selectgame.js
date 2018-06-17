@@ -1,21 +1,16 @@
 $(document).ready(function() {
-    // Aplicamos acción al submit
-    /*$("#select").submit(function( event ) {   
-        location.href ="f1.html";
-        event.preventDefault();
-    });*/
-
     // Buscamos todos los partidos y los cargamos
     FIREBASE.findAllMatchsF1().then(_matchesFound, error).catch(error);
 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-          $("#welcome").text("Bienvenido " + user.email);
+          $("#welcome").text("Bienvenido " + user.displayName);
+          $("#avatar").attr("src", user.photoURL ? user.photoURL : "img/defaultAvatar.jpg");
           console.dir(user);
         } else {
           alert("No hay usuario conectado");
         }
-      });
+    });
       
 });
 
@@ -25,16 +20,26 @@ $(document).ready(function() {
  * @param {Array} matches Listado de todas las partidas presentes.
  */
 function _matchesFound(matches) {
-    this._addMatch("-1", "Nueva partida", "img/add.svg", "<br>Nueva partida<br>", function() {
-        alert("Creada... tu solo tienes que imaginarte un nuevo botón");
+    this._addMatch($("#matchesNew"), "-1", "Nueva partida", "img/add.svg", "<br>Nueva partida<br>", function() {
+        // alert("Creada... tu solo tienes que imaginarte un nuevo botón");
     });
+    var user = firebase.auth().currentUser;
 
     matches.forEach(function(match) {
         var description = match.jugadorA + "<br>VS<br>" + match.jugadorB;
+        var machtList;
 
-        this._addMatch(match.key, "Formula 1", "img/cocheRojo.svg", description, function() {
-            window.location = "f1.html?key=" + match.key;
-        });
+        if ((match.jugadorA == user.displayName)||(match.jugadorB == user.displayName)){
+            machtList = $("#matchesUser");
+        } else if (!match.jugadorA || !match.jugadorB) {
+            machtList = $("#matchesFree");
+        }
+        
+        if (machtList){
+            this._addMatch(machtList, match.key, "Formula 1", "img/cocheRojo.svg", description, function() {
+                window.location = "f1.html?key=" + match.key;
+            });
+        }        
     });
 }
 
@@ -46,7 +51,7 @@ function _matchesFound(matches) {
  * @param {String} text Texto a mostrar en el botón.
  * @param {Function} onclick Acción a llevar a cabo cuando se pulse el botón.
  */
-function _addMatch(gameKey, gameName, gameImg, text, onclick) {
+function _addMatch(matchList, gameKey, gameName, gameImg, text, onclick) {
     var button = $("<div>", {class: "buttonSelector", "data-match-key": gameKey});
     var image = $("<img>", {src: gameImg, title: gameName});
     var users = $("<div>", {html: text});
@@ -55,7 +60,7 @@ function _addMatch(gameKey, gameName, gameImg, text, onclick) {
 
     if (onclick) button.on("click", onclick);
 
-    $("#matches").append(button);
+    matchList.append(button);
 }
 
 /**

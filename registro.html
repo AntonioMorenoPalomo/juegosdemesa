@@ -13,21 +13,23 @@
         <script src="libs/firebase.js"></script>
         <script src="js/tokens.js"></script>
         <script src="js/firebaseManager.js"></script>
-        <script src="js/login.js"></script>
+        <script src="js/registro.js"></script>
     </head>
 
     <body class="text-center">
         <div class="form">
-            <h1>¡Identif&iacute;cate!</h1>
+            <h1>¡Registrate!</h1>
             
             <input type="email" id="email" placeholder="usuario@email.com" required autofocus>
             <div id="emailError" class="errorPanel"></div>
 
+            <input type="text" id="nick" placeholder="nick" required autofocus>
+            <input type="text" id="urlAvatar" placeholder="url del avatar" autofocus>            
+
             <input type="password" id="password" placeholder="p4s5w0rd" required>
             <div id="passwordError" class="errorPanel"></div>
 
-            <button id="login" class="btn loginBtn" type="submit">Identificar</button>
-            <button id="register" class="btn registerBtn">Registrar</button>
+            <button id="register" class="btn registerBtn" type="submit">Registrar</button>
 
             <p class="copyright">&copy; KiwiSoftware 2018</p>
         </div>

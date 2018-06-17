@@ -1,4 +1,3 @@
-
 var F1 = F1 || {
     match : undefined,
     matchKey : undefined
@@ -10,15 +9,13 @@ $(window).resize(function() {
 
 function onLoad() {
     // Initialize Firebase
-    F1.store = tableGameF1;
-    
+    F1.store = FIREBASE.table.games.f1;    
+    $("#return").on("click", returnHome);
 
     $("#dice").on("click", throwDice);
-    $("#newMatch").on("click", loadOrCreateMatch);
     $("#colorSelector").on("change", function() {
         repaintMatch(F1.match);
     });
-
 
     console.log("Window.location = ");
     console.dir(window.location);
@@ -36,6 +33,10 @@ function onLoad() {
     }
 }
 
+function returnHome(){
+    location.href ="selectGame.html";
+}
+
 function loadMatch(key) {
     var found = false;
 
@@ -44,37 +45,6 @@ function loadMatch(key) {
         repaintMatch(F1.match);
         detectChange();
     });
-/*
-    F1.store.once("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-           let childData = childSnapshot.val();
-
-           if (childData.distanciaAzul < 100 && childData.distanciaRojo < 100) {
-               F1.match = childData;
-               F1.matchKey = childSnapshot.key;
-               found = true;
-
-               alert("Partida encontrada");
-               repaintMatch(F1.match);
-           }
-        });
-
-        if (!found) {
-            var match = {
-                turno: "Rojo", 
-                distanciaRojo: 0,
-                distanciaAzul: 0
-            }
-
-            alert("Partida creada");
-        
-            F1.match = F1.store.push();
-            F1.match.set(match);
-            F1.matchKey = F1.match.key;
-        }
-
-        detectChange();
-    });*/
 }
 
 /**
@@ -94,7 +64,6 @@ function detectChange() {
 function saveMatch(match) {
     F1.store.child(F1.matchKey).update(match);
 }
-
 
 /**
  * Tira el dado para ver cuánto porcentaje avanza el coche.

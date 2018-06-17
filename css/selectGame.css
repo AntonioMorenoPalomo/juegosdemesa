@@ -3,6 +3,10 @@
     font-weight: 300;
 }
 
+#avatar {
+    float: left;
+}
+
 header {
     margin: 0px;
     position: fixed;
