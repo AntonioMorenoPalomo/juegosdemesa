@@ -2,6 +2,7 @@ $(document).ready(function() {
     $("form").submit(login);
     $("#login").on("click", login);
     $("#register").on("click", register);
+    $("#loginFB").on("click", loginFacebook);
 });
 
 function login() {
@@ -21,6 +22,12 @@ function login() {
 
 function register() {
     location.href ="registro.html";
+}
+
+function loginFacebook() {
+    FIREBASE.loginFB().then(successLogin, errorLogin).catch(function(error) {
+        alert("Se ha producido un error.\n" + error);
+    });
 }
 
 function successLogin(data) {
