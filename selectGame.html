@@ -23,12 +23,11 @@
 
             <div class="middlePanel">
                 <div id="welcome">Bienvenido</div>
-                <img id="avatar" height="50" width="50"/>
                 <div class="section">Tabl&oacute;n de anuncios</div>
             </div>
             <div class="menu">
-                <img src="img/menu.svg" title="Menú" />
-                <div>Men&uacute;</div>
+                <img id="avatar" class="avatar"/>
+                <div id="username">Usuario</div>
             </div>
         </header>
 
@@ -47,6 +46,16 @@
 
             <p>Comienza una nueva</p>
             <div id="matchesNew"></div>
+
+            <div id="newMatchForm" class="form">
+                Selecciona un juego
+                <br>
+                <input type="radio" name="game" value="F1" /> F1 
+                <br>
+                <input type="radio" name="game" value="chess" /> Ajedrez
+                <br>
+                <div id="button" class="button">Enviar</div>                
+            </div>
 
         </section>
     </body>

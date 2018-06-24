@@ -20,7 +20,7 @@ function login() {
 }
 
 function register() {
-    location.href ="registro.html";
+    location.href ="register.html";
 }
 
 function successLogin(data) {

@@ -6,12 +6,16 @@ $(document).ready(function() {
         if (user) {
           $("#welcome").text("Bienvenido " + user.displayName);
           $("#avatar").attr("src", user.photoURL ? user.photoURL : "img/defaultAvatar.jpg");
+          $("#username").text(user.displayName);
           console.dir(user);
         } else {
           alert("No hay usuario conectado");
         }
     });
       
+    $("#button").on("click", function() {
+        alert("Bu");
+    })
 });
 
 
