@@ -76,8 +76,15 @@ FIREBASE.updateUser = function(nick, urlAvatar, tlf, ciudad) {
  * @param {String} uid Identificador del usuario
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.getUser = function(uid) {
-
+FIREBASE.getUserExtras = function() {
+    var user = firebase.auth().currentUser;
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+        const data = {
+            tlf: (snapshot.val() && snapshot.val().tlf) || 'Sin telefono',
+            ciudad: (snapshot.val() && snapshot.val().ciudad) || 'Sin ciudad'
+        }; 
+        resolve(data);
+    });
 }
 
 /**
@@ -178,6 +185,14 @@ FIREBASE.findF1Match = function(key){
     });
 
     return promise; 
+}
+
+/**
+ * Salva la partida en firebase.
+ * @param {Map} match Información de la partida.
+ */
+FIREBASE.saveF1Match = function(key, match) {
+    FIREBASE.table.games.f1.child(key).update(match);
 }
 
 

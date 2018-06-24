@@ -6,6 +6,9 @@
 #avatar {
     float: left;
 }
+#logout {
+    float: right;
+}
 
 header {
     margin: 0px;
