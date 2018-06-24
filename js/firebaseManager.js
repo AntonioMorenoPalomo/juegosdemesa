@@ -18,11 +18,13 @@ FIREBASE.load = function() {
     // Inicializacion de las BBDD
     firebase.initializeApp(firebaseConfig);
 
-    FIREBASE.db             = firebase.database();
-    FIREBASE.table          = {};
-    FIREBASE.table.users    = FIREBASE.db.ref("users");
-    FIREBASE.table.games    = {};
-    FIREBASE.table.games.f1 = FIREBASE.db.ref("games/f1");
+    FIREBASE.db                     = firebase.database();
+    FIREBASE.table                  = {};
+    FIREBASE.table.users            = FIREBASE.db.ref("users");
+    FIREBASE.table.games            = {};
+    FIREBASE.table.games.f1         = FIREBASE.db.ref("games/f1");
+    FIREBASE.table.games.checkers   = FIREBASE.db.ref("games/checkers");
+    
 }
 
 /**
@@ -48,9 +50,13 @@ FIREBASE.createUser = function(email, password) {
 
 /**
  * Actualiza los parametros de un usuario
+ * @param {String} nick Alias que utilizará el usuario.
+ * @param {String} urlAvatar URL de la imagen del avatar.
+ * @param {String} phone Telefono del usuario.
+ * @param {String} city Ciudad del usuario.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.updateUser = function(nick, urlAvatar, tlf, ciudad) {
+FIREBASE.updateUser = function(nick, urlAvatar, phone, city) {
     // Datos dataProfile de firebase
     const dataProfile = {
         displayName: nick,
@@ -62,8 +68,8 @@ FIREBASE.updateUser = function(nick, urlAvatar, tlf, ciudad) {
     var userId = firebase.auth().currentUser.uid;
     const data = {
         uid: userId, 
-        tlf: tlf,
-        ciudad: ciudad
+        phone: phone,
+        city: city
     };     
     var updates = {};
     updates[userId] = data;  
@@ -73,10 +79,10 @@ FIREBASE.updateUser = function(nick, urlAvatar, tlf, ciudad) {
 
 /**
  * Obtiene toda la informacion de un usuario
- * @param {String} uid Identificador del usuario
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.getUserExtras = function() {
+    // TODO Esto no funciona
     var user = firebase.auth().currentUser;
     return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
         const data = {
@@ -89,7 +95,8 @@ FIREBASE.getUserExtras = function() {
 
 /**
  * Encuentra un susuario en la tabla de jugadores.
- * @param {String} name Nombre del usuario a encontrar.
+ * @param {String} email Cuenta de correo del usuario.
+ * @param {String} password Contraseña de acceso del usuario.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.login = function(email, password) {

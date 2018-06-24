@@ -6,6 +6,8 @@ $(document).ready(function() {
         if (user) {
           $("#welcome").text("Bienvenido " + user.displayName);
           $("#avatar").attr("src", user.photoURL ? user.photoURL : "img/defaultAvatar.jpg");
+          console.log(user.URL);
+          console.dir(user);
           $("#username").text(user.displayName);
           console.dir(user);
         } else {
@@ -15,9 +17,27 @@ $(document).ready(function() {
       
     $("#button").on("click", function() {
         alert("Bu");
-    })
+    });
     
     $("#logout").on("click", logout);
+
+    $(".menu").on("click", function(event) {
+        if ($(".menuPanel").is(":visible")) {
+            $(".menuPanel").hide(250);
+        } else {
+            $(".menuPanel").show(250);
+        }
+
+        event = event || window.event;
+
+        event.stopPropagation();
+
+        return false;
+    });
+
+    $(window).on("click", function() {
+        $(".menuPanel").hide(250);
+    });
 });
 
 /**

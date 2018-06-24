@@ -3,8 +3,6 @@
     font-weight: 300;
 }
 
-<<<<<<< HEAD
-=======
 #avatar {
     float: left;
 }
@@ -12,7 +10,6 @@
     float: right;
 }
 
->>>>>>> 75fa75de9e230d8eb76c41d29d3af27aa6575382
 header {
     margin: 0px;
     position: fixed;
@@ -55,11 +52,31 @@ header .menu {
     vertical-align: top;
     padding: 10px;
     text-align: center;
+    cursor: pointer;
 }
 
 header .menu img {
     max-width: 50px;
     max-height: 50px;
+}
+
+header .menuPanel {
+    background: grey;
+    width: 150px;
+    float: right;
+    display: none;
+    margin-top: 10px;
+}
+
+header .menuPanel > .menuOption {
+    white-space: nowrap;
+    padding: 5px;
+    cursor: pointer;
+    width: calc(100% - 10px);
+}
+
+header .menuPanel > .menuOption:hover {
+    color: yellow;
 }
 
 /* header .avatar {
