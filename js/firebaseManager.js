@@ -1,3 +1,7 @@
+// ##########################################
+// ###            Initialize             ####
+// ##########################################
+
 /**
  * Manejador de Base de Datos.
  */
@@ -16,10 +20,17 @@ FIREBASE.load = function() {
 
     FIREBASE.db             = firebase.database();
     FIREBASE.table          = {};
-    FIREBASE.table.players  = FIREBASE.db.ref("players");
+    FIREBASE.table.users    = FIREBASE.db.ref("users");
     FIREBASE.table.games    = {};
     FIREBASE.table.games.f1 = FIREBASE.db.ref("games/f1");
 }
+
+/**
+ * Carga la configuración de Firebase
+ */
+$(document).ready(function() {
+    FIREBASE.load();
+});
 
 // ##########################################
 // ###               Users               ####
@@ -37,17 +48,45 @@ FIREBASE.createUser = function(email, password) {
 
 /**
  * Actualiza los parametros de un usuario
- * @param {String} nick nick que se desea registrar.
- * @param {String} urlAvatar urlAvatar que se desea registrar.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.updateProfile = function(nick, urlAvatar) {
-    const data = {
+FIREBASE.updateUser = function(nick, urlAvatar, tlf, ciudad) {
+    // Datos dataProfile de firebase
+    const dataProfile = {
         displayName: nick,
         photoURL: urlAvatar
     };
-    return firebase.auth().currentUser.updateProfile(data);
+    firebase.auth().currentUser.updateProfile(dataProfile);
+
+    // Datos extras del usuario
+    var userId = firebase.auth().currentUser.uid;
+    const data = {
+        uid: userId, 
+        tlf: tlf,
+        ciudad: ciudad
+    };     
+    var updates = {};
+    updates[userId] = data;  
+
+    return FIREBASE.table.users.update(updates);
 }
+
+/**
+ * Obtiene toda la informacion de un usuario
+ * @param {String} uid Identificador del usuario
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.getUserExtras = function() {
+    var user = firebase.auth().currentUser;
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+        const data = {
+            tlf: (snapshot.val() && snapshot.val().tlf) || 'Sin telefono',
+            ciudad: (snapshot.val() && snapshot.val().ciudad) || 'Sin ciudad'
+        }; 
+        resolve(data);
+    });
+}
+
 /**
  * Encuentra un susuario en la tabla de jugadores.
  * @param {String} name Nombre del usuario a encontrar.
@@ -58,7 +97,21 @@ FIREBASE.login = function(email, password) {
 }
 
 /**
+ * Loguea a un usuario usando la red social de facebook.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.loginFB = function() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().languageCode = 'es_ES';
+    provider.setCustomParameters({
+        'display': 'popup'
+    });
+    return firebase.auth().signInWithPopup(provider);
+}
+
+/**
  * Desloguea al usuario activo
+ * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.logout = function() {
     return firebase.auth().signOut();
@@ -134,6 +187,14 @@ FIREBASE.findF1Match = function(key){
     return promise; 
 }
 
+/**
+ * Salva la partida en firebase.
+ * @param {Map} match Información de la partida.
+ */
+FIREBASE.saveF1Match = function(key, match) {
+    FIREBASE.table.games.f1.child(key).update(match);
+}
+
 
 // #############################
 // ### Developers Utils     ####
@@ -186,6 +247,4 @@ FIREBASE.initializeDB = function() {
     FIREBASE.insertMatchsF1(match5);
 }
 
-$(document).ready(function() {
-    FIREBASE.load();
-});
+

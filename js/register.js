@@ -13,7 +13,7 @@ function register() {
     $("#email").removeClass("error");
     $("#password").removeClass("error");
     
-    FIREBASE.createUser(email, password, nick, urlAvatar).then(successRegister, errorRegister).catch(function(error) {
+    FIREBASE.createUser(email, password).then(successRegister, errorRegister).catch(function(error) {
         alert("Se ha producido un error.\n" + error);
     });
 }
@@ -22,7 +22,9 @@ function successRegister(user) {
     if (user) {
         var nick = $("#nick").val();
         var urlAvatar = $("#urlAvatar").val();
-        FIREBASE.updateProfile(nick, urlAvatar).then(successUpdate);
+        var tlf = $("#tlf").val();
+        var ciudad = $("#ciudad").val();
+        FIREBASE.updateUser(nick, urlAvatar, tlf, ciudad).then(successUpdate);
     } else {
         alert("No se ha podido crear el usuario");
     }

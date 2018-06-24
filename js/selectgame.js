@@ -16,8 +16,17 @@ $(document).ready(function() {
     $("#button").on("click", function() {
         alert("Bu");
     })
+    
+    $("#logout").on("click", logout);
 });
 
+/**
+ * Desloguea al usuario y lo devuelve al inicio
+ */
+function logout() {
+    FIREBASE.logout();
+    location.href ="login.html";
+}
 
 /**
  * Muestra todos los partidos encontrados.
@@ -33,7 +42,8 @@ function _matchesFound(matches) {
         var description = match.jugadorA + "<br>VS<br>" + match.jugadorB;
         var machtList;
 
-        if ((match.jugadorA == user.displayName)||(match.jugadorB == user.displayName)){
+        if ((match.jugadorA.toUpperCase() == user.displayName.toUpperCase())
+                ||(match.jugadorB.toUpperCase() == user.displayName.toUpperCase())){
             machtList = $("#matchesUser");
         } else if (!match.jugadorA || !match.jugadorB) {
             machtList = $("#matchesFree");
@@ -41,7 +51,15 @@ function _matchesFound(matches) {
         
         if (machtList){
             this._addMatch(machtList, match.key, "Formula 1", "img/cocheRojo.svg", description, function() {
-                window.location = "f1.html?key=" + match.key;
+                // Si es una partida con hueco libre, agregamos al usuario actual
+                if (match.jugadorA  == "") {
+                   match.jugadorA  = user.displayName;
+                   FIREBASE.saveF1Match(match.key, match);
+                } else if (match.jugadorB  == "") {
+                   match.jugadorB  = user.displayName;
+                   FIREBASE.saveF1Match(match.key, match);
+                }
+                window.location = "f1.html?key=" + match.key;             
             });
         }        
     });

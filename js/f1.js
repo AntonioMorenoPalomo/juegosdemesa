@@ -7,9 +7,7 @@ $(window).resize(function() {
     repaintMatch(F1.match);
 });
 
-function onLoad() {
-    // Initialize Firebase
-    F1.store = FIREBASE.table.games.f1;    
+$(document).ready(function() {  
     $("#return").on("click", returnHome);
 
     $("#dice").on("click", throwDice);
@@ -17,9 +15,8 @@ function onLoad() {
         repaintMatch(F1.match);
     });
 
-    console.log("Window.location = ");
-    console.dir(window.location);
-
+    // Initialize Firebase
+    F1.store = FIREBASE.table.games.f1;   
     var search = window.location.search;
 
     if (search && search.indexOf("key=") > 0) {
@@ -31,15 +28,13 @@ function onLoad() {
 
         loadMatch(F1.matchKey);
     }
-}
+});
 
 function returnHome(){
     location.href ="selectGame.html";
 }
 
 function loadMatch(key) {
-    var found = false;
-
     FIREBASE.findF1Match(key).then(function(data) {
         F1.match = data;
         repaintMatch(F1.match);
@@ -57,13 +52,6 @@ function detectChange() {
     });
 }
 
-/**
- * Salva la partida en firebase.
- * @param {Map} match Información de la partida.
- */
-function saveMatch(match) {
-    F1.store.child(F1.matchKey).update(match);
-}
 
 /**
  * Tira el dado para ver cuánto porcentaje avanza el coche.
@@ -82,7 +70,7 @@ function throwDice() {
         F1.match.turno = "Rojo";
     }
 
-    saveMatch(F1.match);    
+    FIREBASE.saveF1Match(F1.matchKey, F1.match);    
     repaintMatch(F1.match);
 }
 

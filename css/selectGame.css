@@ -3,6 +3,16 @@
     font-weight: 300;
 }
 
+<<<<<<< HEAD
+=======
+#avatar {
+    float: left;
+}
+#logout {
+    float: right;
+}
+
+>>>>>>> 75fa75de9e230d8eb76c41d29d3af27aa6575382
 header {
     margin: 0px;
     position: fixed;
