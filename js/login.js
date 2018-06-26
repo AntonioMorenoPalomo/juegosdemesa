@@ -25,6 +25,7 @@ function register() {
 }
 
 function loginFacebook() {
+    alert("Vamos con FB");
     FIREBASE.loginFB().then(successLogin, errorLogin).catch(function(error) {
         alert("Se ha producido un error.\n" + error);
     });
@@ -61,5 +62,7 @@ function errorLogin(error) {
             $("#password").addClass("error");
             $("#email").addClass("error");
             break;
+        default:
+            alert("Se ha producido un error desconocido: " + error);
     }
 }
