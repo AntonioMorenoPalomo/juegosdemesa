@@ -113,7 +113,36 @@ FIREBASE.loginFB = function() {
     provider.setCustomParameters({
         'display': 'popup'
     });
-    return firebase.auth().signInWithPopup(provider);
+    
+    return firebase.auth().signInWithPopup(provider).then(function(result) {
+        var token = result.credential.accessToken;
+        var user = result.user;
+    }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        var credential = error.credential;
+    });
+}
+
+/**
+ * Loguea a un usuario usando la red social de facebook.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.loginGoogle = function() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    firebase.auth().languageCode = 'es_ES';
+
+    return firebase.auth().signInWithPopup(provider).then(function(result) {
+        var token = result.credential.accessToken;
+        var user = result.user;
+    }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        var credential = error.credential;
+    });
 }
 
 /**
