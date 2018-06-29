@@ -16,9 +16,7 @@ function login() {
     $("#email").removeClass("error");
     $("#password").removeClass("error");
     
-    FIREBASE.login(email, password).then(successLogin, errorLogin).catch(function(error) {
-        alert("Se ha producido un error.\n" + error);
-    });
+    FIREBASE.login(email, password).then(successLogin, errorLogin);
 }
 
 function loginFacebook() {
@@ -36,11 +34,7 @@ function loginGoogle() {
 }
 
 function successLogin(data) {
-    //if (data && data.user){
-        location.href ="selectGame.html";
-    //} else {
-    //alert("No se ha identificar el usuario");
-    //}
+    location.href ="selectGame.html";
 }
 
 function errorLogin(error) {

@@ -5,17 +5,12 @@
 /**
  * Manejador de Base de Datos.
  */
-
 var FIREBASE = FIREBASE || {};
 
 /**
  * Carga la información necesaria para trabajar con *Realtime Database* de *Firebase*.
  */
 FIREBASE.load = function() {
-    // Tokens de acceso a firebase
-    // Se cogerán de tokens.js, fichero que será incluido en el .gitignore
-
-    // Inicializacion de las BBDD
     firebase.initializeApp(firebaseConfig);
 
     FIREBASE.db                     = firebase.database();
@@ -24,7 +19,6 @@ FIREBASE.load = function() {
     FIREBASE.table.games            = {};
     FIREBASE.table.games.f1         = FIREBASE.db.ref("games/f1");
     FIREBASE.table.games.checkers   = FIREBASE.db.ref("games/checkers");
-    
 }
 
 /**
@@ -39,13 +33,17 @@ $(document).ready(function() {
 // ##########################################
 
 /**
- * Crea un nuevo usuario con su email y contraseña.
+ * Crea un nuevo usuario con su email y contraseña, y actualiza sus parametros opcionales.
  * @param {String} email Email que se desea registrar.
- * @param {String} password Contraseña asignada al email.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.createUser = function(email, password) {
-    return firebase.auth().createUserWithEmailAndPassword(email, password);
+FIREBASE.createUser = function(email, password, nick, urlAvatar, tlf, ciudad) {
+    var promise = new Promise(function (resolve, reject) {
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+            resolve(FIREBASE.updateUser(nick, urlAvatar, tlf, ciudad));
+        });
+    });
+    return promise;
 }
 
 /**
@@ -57,19 +55,20 @@ FIREBASE.createUser = function(email, password) {
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.updateUser = function(nick, urlAvatar, phone, city) {
-    // Datos dataProfile de firebase
+    // Datos dataProfile de firebase, no hay más
     const dataProfile = {
         displayName: nick,
-        photoURL: urlAvatar
+        photoURL: urlAvatar,
+        phoneNumber: phone
     };
     firebase.auth().currentUser.updateProfile(dataProfile);
 
-    // Datos extras del usuario
+    // Datos extras del usuario, se pueden agregar más
     var userId = firebase.auth().currentUser.uid;
     const data = {
-        uid: userId, 
         phone: phone,
-        city: city
+        city: city,
+        otrosExtras: "ejemplo"
     };     
     var updates = {};
     updates[userId] = data;  
@@ -82,12 +81,11 @@ FIREBASE.updateUser = function(nick, urlAvatar, phone, city) {
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.getUserExtras = function() {
-    // TODO Esto no funciona
     var user = firebase.auth().currentUser;
-    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+    return firebase.database().ref('/users/' + user.userId).once('value').then(function(snapshot) {
         const data = {
-            tlf: (snapshot.val() && snapshot.val().tlf) || 'Sin telefono',
-            ciudad: (snapshot.val() && snapshot.val().ciudad) || 'Sin ciudad'
+            phone: (snapshot.val() && snapshot.val().phone) || 'Sin telefono',
+            city: (snapshot.val() && snapshot.val().city) || 'Sin ciudad'
         }; 
         resolve(data);
     });
@@ -109,40 +107,31 @@ FIREBASE.login = function(email, password) {
  */
 FIREBASE.loginFB = function() {
     var provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().languageCode = 'es_ES';
-    provider.setCustomParameters({
-        'display': 'popup'
-    });
-    
-    return firebase.auth().signInWithPopup(provider).then(function(result) {
-        var token = result.credential.accessToken;
-        var user = result.user;
-    }).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        var email = error.email;
-        var credential = error.credential;
-    });
+    return FIREBASE.loginProvider(provider);
 }
 
 /**
- * Loguea a un usuario usando la red social de facebook.
+ * Loguea a un usuario usando la red social de Google.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.loginGoogle = function() {
     var provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    return FIREBASE.loginProvider(provider);
+}
+
+FIREBASE.loginProvider = function(provider) {
     firebase.auth().languageCode = 'es_ES';
 
-    return firebase.auth().signInWithPopup(provider).then(function(result) {
-        var token = result.credential.accessToken;
-        var user = result.user;
-    }).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        var email = error.email;
-        var credential = error.credential;
+    var promise = new Promise(function (resolve, reject) {
+        firebase.auth().signInWithPopup(provider).then(function(user) {
+            resolve(FIREBASE.updateUser(user.user.displayName, user.user.photoURL, user.user.phoneNumber, ""));
+        }).catch(function(error) {
+            alert("Se ha producido un error.\n" + error);
+        });
     });
+    
+    return promise;
 }
 
 /**
@@ -187,7 +176,7 @@ FIREBASE.findAllMatchsF1 = function(){
             
             if (result && resolve){ 
                 resolve(result);
-            } else if (!result && reject) {
+            } else {
                 reject();       
             }
         });        
