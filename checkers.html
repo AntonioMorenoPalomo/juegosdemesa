@@ -1,0 +1,50 @@
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Juego de mesa: Damas</title>
+        
+        <!-- CSS -->
+        <link href="libs/bootstrap.min.css" rel="stylesheet">
+        <link href="css/f1.css" rel="stylesheet">
+        
+        <!-- Firebase y nuestro -->
+        <script src="libs/jquery-slim.min.js"></script>
+        <script src="libs/firebase.js"></script>
+        <script src="js/tokens.js"></script>
+        <script src="js/firebaseManager.js"></script>
+        <script src="js/checkers.js"></script>
+    </head>
+
+    <body onload="">
+        <div id="boardPanel" class="pista">
+            <img src="img/chessboard.svg" id="board" class="coche" style="left: 35px;" />
+        </div>
+
+        <div style="margin: auto; width: 160px;">
+            <div>
+                Elige tu color: 
+                <select id="colorSelector">
+                    <option value="Rojo">Rojo</option>
+                    <option value="Azul">Azul</option>
+                </select>
+            </div>
+            <div style="width: 100%; text-align: center;">
+                <div id="panel" class="dicePanel" style="white-space: nowrap;"></div>
+                <input type="button" class="btn" id="dice" value="Tira el dado" />
+            </div>
+            <div style="width: 100%; text-align: center;">
+                <input type="button" class="btn" id="return" value="Volver al home" />
+            </div>
+        </div>
+        
+        <div id="winnerPanel" class="winner">
+            <img src="img/cocheRojo.svg" />
+            <div class="text">Winner</div>
+            <div class="button" id="newMatch">Nueva partida</div>
+        </div>
+
+    </body>
+</html>

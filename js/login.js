@@ -25,7 +25,6 @@ function register() {
 }
 
 function loginFacebook() {
-    alert("Vamos con FB");
     FIREBASE.loginFB().then(successLogin, errorLogin).catch(function(error) {
         alert("Se ha producido un error.\n" + error);
     });
