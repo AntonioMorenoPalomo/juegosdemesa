@@ -3,6 +3,7 @@ $(document).ready(function() {
     $("#login").on("click", login);
     $("#register").on("click", register);
     $("#loginFB").on("click", loginFacebook);
+    $("#loginGoogle").on("click", loginGoogle);    
 });
 
 function login() {
@@ -15,13 +16,7 @@ function login() {
     $("#email").removeClass("error");
     $("#password").removeClass("error");
     
-    FIREBASE.login(email, password).then(successLogin, errorLogin).catch(function(error) {
-        alert("Se ha producido un error.\n" + error);
-    });
-}
-
-function register() {
-    location.href ="register.html";
+    FIREBASE.login(email, password).then(successLogin, errorLogin);
 }
 
 function loginFacebook() {
@@ -30,12 +25,15 @@ function loginFacebook() {
     });
 }
 
+function loginGoogle() {
+    alert("Vamos con Google");
+    FIREBASE.loginGoogle().then(successLogin, errorLogin).catch(function(error) {
+        alert("Se ha producido un error.\n" + error);
+    });
+}
+
 function successLogin(data) {
-    if (data && data.user){
-        location.href ="selectGame.html";
-    } else {
-        alert("No se ha identificar el usuario");
-    }
+    location.href ="selectGame.html";
 }
 
 function errorLogin(error) {
@@ -64,4 +62,8 @@ function errorLogin(error) {
         default:
             alert("Se ha producido un error desconocido: " + error);
     }
+}
+
+function register() {
+    location.href ="register.html";
 }

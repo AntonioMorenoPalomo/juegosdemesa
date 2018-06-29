@@ -6,35 +6,24 @@ $(document).ready(function() {
 function register() {
     var email = $("#email").val();
     var password = $("#password").val();
-
     $("#emailError").hide(250);
-    $("#passwordError").hide(250);
-    
+    $("#passwordError").hide(250);    
     $("#email").removeClass("error");
     $("#password").removeClass("error");
     
-    FIREBASE.createUser(email, password).then(successRegister, errorRegister).catch(function(error) {
+    var nick = $("#nick").val();
+    var urlAvatar = $("#urlAvatar").val();
+    var tlf = $("#tlf").val();
+    var ciudad = $("#ciudad").val();
+
+    FIREBASE.createUser(email, password, nick, urlAvatar, tlf, ciudad).then(successRegister, errorRegister).catch(function(error) {
         alert("Se ha producido un error.\n" + error);
     });
 }
 
-function successRegister(user) { 
-    if (user) {
-        var nick = $("#nick").val();
-        var urlAvatar = $("#urlAvatar").val();
-        var tlf = $("#tlf").val();
-        var ciudad = $("#ciudad").val();
-        FIREBASE.updateUser(nick, urlAvatar, tlf, ciudad).then(successUpdate);
-    } else {
-        alert("No se ha podido crear el usuario");
-    }
-}
-
-function successUpdate(){
-    alert("El usuario se ha creado correctamente");
+function successRegister() { 
     location.href ="selectGame.html";
 }
-
 
 function errorRegister(error) {
     switch (error.code) {
