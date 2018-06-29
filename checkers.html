@@ -19,25 +19,48 @@
     </head>
 
     <body onload="">
-        <div id="boardPanel" class="pista">
-            <img src="img/chessboard.svg" id="board" class="coche" style="left: 35px;" />
+        <div id="boardPanel" class="pista" style="text-align: left;">
+            <img src="img/chessboard.svg" id="board" class="board" style="height: calc(100vh - 40px);" />
         </div>
 
         <div style="margin: auto; width: 160px;">
-            <div>
-                Elige tu color: 
-                <select id="colorSelector">
-                    <option value="Rojo">Rojo</option>
-                    <option value="Azul">Azul</option>
-                </select>
-            </div>
-            <div style="width: 100%; text-align: center;">
-                <div id="panel" class="dicePanel" style="white-space: nowrap;"></div>
-                <input type="button" class="btn" id="dice" value="Tira el dado" />
-            </div>
-            <div style="width: 100%; text-align: center;">
-                <input type="button" class="btn" id="return" value="Volver al home" />
-            </div>
+            <table>
+                <tr>
+                    <td>Horizontal</td>
+                    <td>
+                        <select id="horizontal">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vertical</td>
+                    <td>
+                        <select id="vertical">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="cursor: pointer; background: red; padding: 5px;">Poner</div>
+                    </td>
+                </tr>
+            </table>
         </div>
         
         <div id="winnerPanel" class="winner">
