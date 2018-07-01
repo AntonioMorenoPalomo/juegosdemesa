@@ -1,69 +1,46 @@
 /*
- * Tablero unidimensional 
+ * Tablero genérico
  */
-function Board(n) {
-    var board = this;
-    board.lenght = n;
+function Board(horizontal, vertical = 1) {
+	this.board = [];
+	this.lenghtHorizontal = horizontal;
+	this.lenghtVertical = vertical;
 
-    // Inizializate
-    for (var h = 0; h < n; h++) {
-        board[h] = undefined;
-    }
-   
-    // Guarda casilla en la posicion indicada
-    board.setBox = function(n, Box){
-        board[n] = Box;
-    }
-
-    // Devuelve la casilla seleccionada
-    board.findBox = function(initVertical, endVertical, initHorizontal, endHorizontal){
-        for (var h = 0; h < board.lenght; h++) {
-            if ((board[h] != undefined) &&
-                (board[h].inBox(initVertical, endVertical, initHorizontal, endHorizontal))) {
-                    return true;
-            }
-        }
-        return false;
-    }
+	// Inizializate
+	for (var h = 0; h < this.lenghtHorizontal; h++) {
+		for (var v = 0; v < this.lenghtVertical; v++) {
+			board[h] = [];
+			board[h][v] = undefined;
+		}
+	}
 }
 
-/*
- * Tablero bidimensional 
+
+
+/**
+ * Guarda una casilla en la posicion indicada.
+ * @param {Square} square Casilla a introducir.
+ * @param {Number} horizontal Dimensión del tablero en horizontal.
+ * @param {Number} vertical Dimensión del tablero en vertical. Por defecto 1.
  */
-function Board(n, m) {
-    var board = this;
-    board.lenghtHorizontal = n;
-    board.lenghtVertical = m;
-
-    // Inizializate
-    for (var h = 0; h < board.lenghtHorizontal; h++) {
-        for (var v = 0; v < board.lenghtVertical; v++) {
-            board[h] = [];
-            board[h][v] = undefined;
-        }
-    }
-
-    // Guarda casilla en la posicion indicada
-    board.setBox = function(n, m, Box){
-        board[n][m] = Box;
-    }
-
-    // Devuelve la casilla seleccionada
-    board.findBox = function(initVertical, endVertical, initHorizontal, endHorizontal){
-        for (var h = 0; h < board.lenghtHorizontal; h++) {
-            for (var v = 0; v < board.lenghtVertical; v++) {
-               if ((board[h][v] != undefined) &&
-                    (board[h][v].inBox(initVertical, endVertical, initHorizontal, endHorizontal))) {
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
+Board.prototype.setSquare = function(square, horizontal, vertical = 1){
+	board[horizontal][vertical] = square;
 }
-  
-Board.prototype = {
-    // TODO: funcionalidades genericas de ambas
-};
 
-//  var listBox = new Square(2)
+/**
+ * Devuelve la casilla seleccionada
+ * @param {Number} horizontal Posición horizontal a buscar.
+ * @param {Number} vertical Posición vertical a buscar. Por defecto 1.
+ */
+Board.prototype.findBox = function(horizontal, vertical = 1) {
+	for (var h = 0; h < this.lenghtHorizontal; h++) {
+		for (var v = 0; v < this.lenghtVertical; v++) {
+			if (board[h][v] && board[h][v].inSquare(horizontal, vertical)) {
+				return board[h][v];
+			}
+		}
+	}
+
+	return undefined;
+}
+
