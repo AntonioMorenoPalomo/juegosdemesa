@@ -143,7 +143,42 @@ FIREBASE.logout = function() {
 } 
 
 // ##########################################
-// ###              Matches              ####
+// ###    Genericas de todos los juegos   ###
+// ##########################################
+
+/**
+ * Encuentra la partida indicada del juego indicado.
+ * @param {String} key Clave del encuentro.
+ * @param {String} key Clave del encuentro.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.findMatch = function(key, game) {    
+    var result = [];
+
+    var promise = new Promise(function (resolve, reject) {
+        FIREBASE.db.ref("games/"+ game + "/" + key).once("value", function(snapshot) {
+            snapshot.forEach(function(data) {
+                var value = data.val();
+                value.key = data.key;
+
+                result.push(value);
+            });  
+            
+            if (result && resolve) { 
+                resolve(result);
+            } else {
+                reject();         
+            }
+        });        
+    });
+
+    return promise; 
+}
+
+
+
+// ##########################################
+// ###              F1                    ###
 // ##########################################
 
 /**
@@ -186,30 +221,12 @@ FIREBASE.findAllMatchsF1 = function(){
 }
 
 /**
- * Encuentra todas las partidas de F1.
+ * Encuentra una partida de F1.
  * @param {String} key Clave del encuentro.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.findF1Match = function(key){   
-    var result = [];
-
-    var promise = new Promise(function (resolve, reject) {
-        FIREBASE.db.ref("games/f1/" + key).once("value", function(snapshot) {
-            snapshot.forEach(function(data) {
-                var value = data.val();
-                value.key = data.key;
-
-                result.push(value);
-            });  
-            
-            if (result && resolve) 
-                resolve(result);
-            else if (!result && reject) 
-                reject();         
-        });        
-    });
-
-    return promise; 
+    FIREBASE.findMatch(key, "f1");
 }
 
 /**
@@ -221,6 +238,39 @@ FIREBASE.saveF1Match = function(key, match) {
 }
 
 
+// ##########################################
+// ###              Checkers             ####
+// ##########################################
+/**
+ * Inserta una nueva partida de Cherkes.
+ * @param {Map} match Información de una nueva partida de F1.
+ * @return {Promise} Devuelve la promesa de la actualización.
+ */
+FIREBASE.insertCheckersMatch = function(match) { 
+    var newKey = FIREBASE.table.games.checkers.push().key;  
+    var updates = {};
+    updates[newKey] = match;  
+    return FIREBASE.table.games.checkers.update(updates);
+}
+
+/**
+ * Encuentra todas las partidas de Checkers.
+ * @param {String} key Clave del encuentro.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.findCheckersMatch = function(key) {
+    FIREBASE.findMatch(key, "checkers");
+}
+
+/**
+ * Salva la partida en firebase.
+ * @param {Map} match Información de la partida.
+ */
+FIREBASE.saveCheckersMatch = function(key, match) {
+    FIREBASE.table.games.checkers.child(key).update(match);
+}
+
+
 // #############################
 // ### Developers Utils     ####
 // #############################
@@ -229,35 +279,36 @@ FIREBASE.saveF1Match = function(key, match) {
  * Inicializacion de la BBDD con datos de ejemplos
  */
 FIREBASE.initializeDB = function() { 
-    var match1 = {
+    // F1
+    var f1match1 = {
         jugadorA: "Jose",
         jugadorB: "Pepe",
         turno: "Rojo", 
         distanciaRojo: 10,
         distanciaAzul: 20
     }
-    var match2 = {
+    var f1match2 = {
         jugadorA: "Jose",
         jugadorB: "Antonio",
         turno: "Rojo", 
         distanciaRojo: 61,
         distanciaAzul: 49
     }
-    var match3 = {
+    var f1match3 = {
         jugadorA: "Maria",
         jugadorB: "Antonio",
         turno: "Rojo", 
         distanciaRojo: 0,
         distanciaAzul: 0
     }
-    var match4 = {
+    var f1match4 = {
         jugadorA: "",
         jugadorB: "Antonio",
         turno: "Rojo", 
         distanciaRojo: 0,
         distanciaAzul: 0
     }
-    var match5 = {
+    var f1match5 = {
         jugadorA: "Taos",
         jugadorB: "",
         turno: "Rojo", 
@@ -265,11 +316,69 @@ FIREBASE.initializeDB = function() {
         distanciaAzul: 0
     }
 
-    FIREBASE.insertMatchsF1(match1);
-    FIREBASE.insertMatchsF1(match2);
-    FIREBASE.insertMatchsF1(match3);
-    FIREBASE.insertMatchsF1(match4);
-    FIREBASE.insertMatchsF1(match5);
+    FIREBASE.insertMatchsF1(f1match1);
+    FIREBASE.insertMatchsF1(f1match2);
+    FIREBASE.insertMatchsF1(f1match3);
+    FIREBASE.insertMatchsF1(f1match4);
+    FIREBASE.insertMatchsF1(f1match5);
+
+    var match1 = {
+        jugadorA: "Jose",
+        jugadorB: "Pepe",
+        turno: "red", 
+        posiciones: [(1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"red"),
+                     (1,1,"white"),(1,1,"white"),(1,1,"white"),(1,1,"red"),
+                     (1,1,"red"),(1,1,"red"),(1,1,"white"),,(1,1,"white"),
+                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
+                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
+                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"red")]
+    }
+    var match2 = {
+        jugadorA: "Jose",
+        jugadorB: "Antonio",
+        turno: "white", 
+        distanciaRojo: 61,
+        posiciones: [(1,1,"white"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
+                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
+                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"white"),
+                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
+                     (1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"white"),
+                     (1,1,"white"),(1,1,"red"),(1,1,"white"),,(1,1,"red")]
+    }
+    var match3 = {
+        jugadorA: "Maria",
+        jugadorB: "Antonio",
+        turno: "red", 
+        posiciones: [(1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
+                     (1,1,"white"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
+                     (1,1,"red"),(1,1,"red"),(1,1,"red"),,(1,1,"red"),
+                     (1,1,"red"),(1,1,"white"),(1,1,"white"),(1,1,"red"),
+                     (1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
+                     (1,1,"white"),(1,1,"red"),(1,1,"red"),,(1,1,"white")]
+    }
+    var match4 = {
+        jugadorA: "",
+        jugadorB: "Antonio",
+        turno: "red", 
+        posiciones: [(1,1,"red"),(1,1,"white"),(1,1,"white"),(1,1,"white"),
+                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"red")]
+    }
+    var match5 = {
+        jugadorA: "Taos",
+        jugadorB: "",
+        turno: "white", 
+        posiciones: [(1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
+                     (1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"white"),
+                     (1,1,"white"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
+                     (1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"red")]
+    }
+
+    FIREBASE.insertCheckersMatch(match1);
+    FIREBASE.insertCheckersMatch(match2);
+    FIREBASE.insertCheckersMatch(match3);
+    FIREBASE.insertCheckersMatch(match4);
+    FIREBASE.insertCheckersMatch(match5);
+    
 }
 
 
