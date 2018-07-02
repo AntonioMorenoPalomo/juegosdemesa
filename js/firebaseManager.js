@@ -127,7 +127,7 @@ FIREBASE.loginProvider = function(provider) {
         firebase.auth().signInWithPopup(provider).then(function(user) {
             resolve(FIREBASE.updateUser(user.user.displayName, user.user.photoURL, user.user.phoneNumber, ""));
         }).catch(function(error) {
-            alert("Se ha producido un error.\n" + error);
+            console.log("Se ha producido un error.\n" + error);
         });
     });
     
@@ -291,7 +291,7 @@ FIREBASE.initializeDB = function() {
         jugadorA: "Jose",
         jugadorB: "Antonio",
         turno: "Rojo", 
-        distanciaRojo: 61,
+        distanciaRojo: 61;
         distanciaAzul: 49
     }
     var f1match3 = {
@@ -325,52 +325,51 @@ FIREBASE.initializeDB = function() {
     var match1 = {
         jugadorA: "Jose",
         jugadorB: "Pepe",
-        turno: "red", 
-        posiciones: [(1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"white"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),,(1,1,"white"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"red")]
+        turno: "red"
+//        posiciones: [(1;1;"white"),(1;1;"red"),(1;1;"red"),(1;1;"red"),
+//                     (1;1;"white"),(1;1;"white"),(1;1;"white"),(1;1;"red"),
+//                     (1;1;"red"),(1;1;"red"),(1;1;"white"),,(1;1;"white"),
+//                     (1;1;"red"),(1;1;"red"),(1;1;"white"),(1;1;"white"),
+//                     (1;1;"red"),(1;1;"red"),(1;1;"white"),(1;1;"red"),
+//                     (1;1;"red"),(1;1;"white"),(1;1;"red"),(1;1;"red")]
     }
     var match2 = {
         jugadorA: "Jose",
         jugadorB: "Antonio",
-        turno: "white", 
-        distanciaRojo: 61,
-        posiciones: [(1,1,"white"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"white"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"white"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"white"),,(1,1,"red")]
+        turno: "white"
+//        posiciones: [(1;1;"white"),(1;1;"white"),(1;1;"red"),(1;1;"red"),
+//                     (1;1;"red"),(1;1;"red"),(1;1;"white"),(1;1;"white"),
+//                     (1;1;"red"),(1;1;"white"),(1;1;"red"),,(1;1;"white"),
+//                     (1;1;"red"),(1;1;"red"),(1;1;"white"),(1;1;"white"),
+//                     (1;1;"red"),(1;1;"white"),(1;1;"red"),(1;1;"white"),
+//                     (1;1;"white"),(1;1;"red"),(1;1;"white"),,(1;1;"red")]
     }
     var match3 = {
         jugadorA: "Maria",
         jugadorB: "Antonio",
-        turno: "red", 
-        posiciones: [(1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"red"),,(1,1,"red"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"red"),,(1,1,"white")]
+        turno: "red"
+//        posiciones: [(1;1;"red"),(1;1;"red"),(1;1;"white"),(1;1;"white"),
+//                     (1;1;"white"),(1;1;"red"),(1;1;"white"),(1;1;"red"),
+//                     (1;1;"red"),(1;1;"red"),(1;1;"red"),(1;1;"red"),
+//                     (1;1;"red"),(1;1;"white"),(1;1;"white"),(1;1;"red"),
+//                     (1;1;"red"),(1;1;"white"),(1;1;"red"),(1;1;"red"),
+//                     (1;1;"white"),(1;1;"red"),(1;1;"red"),(1;1;"white")]
     }
     var match4 = {
         jugadorA: "",
         jugadorB: "Antonio",
-        turno: "red", 
-        posiciones: [(1,1,"red"),(1,1,"white"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"red")]
+        turno: "red"
+//        posiciones: [(1;1;"red"),(1;1;"white"),(1;1;"white"),(1;1;"white"),
+//                     (1;1;"red"),(1;1;"white"),(1;1;"red"),,(1;1;"red")]
     }
     var match5 = {
         jugadorA: "Taos",
         jugadorB: "",
-        turno: "white", 
-        posiciones: [(1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"white"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"red")]
+        turno: "white"
+//        posiciones: [(1;1;"red"),(1;1;"white"),(1;1;"red"),(1;1;"red"),
+//                     (1;1;"white"),(1;1;"red"),(1;1;"red"),(1;1;"white"),
+//                     (1;1;"white"),(1;1;"red"),(1;1;"white"),(1;1;"red"),
+//                     (1;1;"white"),(1;1;"red"),(1;1;"red"),(1;1;"red")]
     }
 
     FIREBASE.insertCheckersMatch(match1);

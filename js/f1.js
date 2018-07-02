@@ -19,7 +19,7 @@ $(document).ready(function() {
     F1.store = FIREBASE.table.games.f1;   
     var search = window.location.search;
 
-    if (search && search.indexOf("key=") > 0) {
+    if (search && search.indexOf("key=") >= 0) {
         F1.matchKey = search.substring(search.indexOf("key=") + 4);
 
         if (F1.matchKey.indexOf("&") >= 0) {

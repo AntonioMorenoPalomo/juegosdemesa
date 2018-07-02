@@ -21,14 +21,14 @@ function login() {
 
 function loginFacebook() {
     FIREBASE.loginFB().then(successLogin, errorLogin).catch(function(error) {
-        alert("Se ha producido un error.\n" + error);
+        console.log("Se ha producido un error.\n" + error);
     });
 }
 
 function loginGoogle() {
-    alert("Vamos con Google");
+	 console.log("Vamos con Google");
     FIREBASE.loginGoogle().then(successLogin, errorLogin).catch(function(error) {
-        alert("Se ha producido un error.\n" + error);
+    	 console.log("Se ha producido un error.\n" + error);
     });
 }
 
@@ -60,7 +60,7 @@ function errorLogin(error) {
             $("#email").addClass("error");
             break;
         default:
-            alert("Se ha producido un error desconocido: " + error);
+        	 console.log("Se ha producido un error desconocido: " + error);
     }
 }
 

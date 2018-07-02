@@ -11,12 +11,12 @@ $(document).ready(function() {
           $("#username").text(user.displayName);
           console.dir(user);
         } else {
-          alert("No hay usuario conectado");
+          console.log("No hay usuario conectado");
         }
     });
       
     $("#button").on("click", function() {
-        alert("Bu");
+        console.log("Bu");
     });
     
     $("#logout").on("click", logout);
@@ -111,5 +111,5 @@ function _addMatch(matchList, gameKey, gameName, gameImg, text, onclick) {
  */
 function error(error) {
     console.error(error);
-    alert("Se ha producido un error: " + (typeof(error) == "object" ? error.message : error));
+    console.log("Se ha producido un error: " + (typeof(error) == "object" ? error.message : error));
 }

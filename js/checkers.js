@@ -35,7 +35,7 @@ function loadBoard(posiciones) {
 	// Reiniciamos el tablero (y posiciones)
 	resetBoard(); 
 
-	for (i = 0; i < posiciones.length; i++) {
+	for (var i = 0; i < posiciones.length; i++) {
 		CHECKERS.board.setSquare(posiciones[i][0], posiciones[i][1], posiciones[i][2]);
 	}
 }
