@@ -147,9 +147,21 @@ FIREBASE.logout = function() {
 // ##########################################
 
 /**
+ * Inserta una nueva partida.
+ * @param {Map} match Información de una nueva partida de F1.
+ * @return {Promise} Devuelve la promesa de la actualización.
+ */
+FIREBASE.insertMatch = function(match, ref) { 
+    var newKey = ref.push().key;  
+    var updates = {};
+    updates[newKey] = match;  
+    return ref.update(updates);
+}
+
+/**
  * Encuentra la partida indicada del juego indicado.
  * @param {String} key Clave del encuentro.
- * @param {String} key Clave del encuentro.
+ * @param {String} game Nombre del juego
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.findMatch = function(key, game) {    
@@ -175,33 +187,16 @@ FIREBASE.findMatch = function(key, game) {
     return promise; 
 }
 
-
-
-// ##########################################
-// ###              F1                    ###
-// ##########################################
-
 /**
- * Inserta una nueva partida de F1.
- * @param {Map} match Información de una nueva partida de F1.
- * @return {Promise} Devuelve la promesa de la actualización.
- */
-FIREBASE.insertMatchsF1 = function(match) { 
-    var newKey = FIREBASE.table.games.f1.push().key;  
-    var updates = {};
-    updates[newKey] = match;  
-    return FIREBASE.table.games.f1.update(updates);
-}
-
-/**
- * Encuentra todas las partidas de F1.
+ * Encuentra todas las partidas del juego indicado
+ * @param {String} ref Refrencia del juego
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findAllMatchsF1 = function(){   
+FIREBASE.findAllMatchs = function(ref){   
     var result = [];
 
     var promise = new Promise(function (resolve, reject) {
-        FIREBASE.table.games.f1.once("value", function(snapshot) {
+        ref.once("value", function(snapshot) {
             snapshot.forEach(function(data) {
                 var value = data.val();
                 value.key = data.key;
@@ -220,12 +215,33 @@ FIREBASE.findAllMatchsF1 = function(){
     return promise; 
 }
 
+// ##########################################
+// ###              F1                    ###
+// ##########################################
+
+/**
+ * Inserta una nueva partida de F1.
+ * @param {Map} match Información de una nueva partida de F1.
+ * @return {Promise} Devuelve la promesa de la actualización.
+ */
+FIREBASE.insertMatchsF1 = function(match) { 
+	return FIREBASE.insertMatch (match, FIREBASE.table.games.f1);
+}
+
+/**
+ * Encuentra todas las partidas de F1.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.findAllMatchsF1 = function(){   
+	return FIREBASE.findAllMatchs(FIREBASE.table.games.f1);
+}
+
 /**
  * Encuentra una partida de F1.
  * @param {String} key Clave del encuentro.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findF1Match = function(key){   
+FIREBASE.findMatchF1 = function(key){   
     return FIREBASE.findMatch(key, "f1");
 }
 
@@ -233,7 +249,7 @@ FIREBASE.findF1Match = function(key){
  * Salva la partida en firebase.
  * @param {Map} match Información de la partida.
  */
-FIREBASE.saveF1Match = function(key, match) {
+FIREBASE.saveMatchF1 = function(key, match) {
     return FIREBASE.table.games.f1.child(key).update(match);
 }
 
@@ -246,27 +262,32 @@ FIREBASE.saveF1Match = function(key, match) {
  * @param {Map} match Información de una nueva partida de F1.
  * @return {Promise} Devuelve la promesa de la actualización.
  */
-FIREBASE.insertCheckersMatch = function(match) { 
-    var newKey = FIREBASE.table.games.checkers.push().key;  
-    var updates = {};
-    updates[newKey] = match;  
-    return FIREBASE.table.games.checkers.update(updates);
+FIREBASE.insertMatchCheckers = function(match) { 
+	return FIREBASE.insertMatch (match, FIREBASE.table.games.checkers);
 }
 
 /**
- * Encuentra todas las partidas de Checkers.
+ * Encuentra una partida
  * @param {String} key Clave del encuentro.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findCheckersMatch = function(key) {
+FIREBASE.findMatchCheckers = function(key) {
    return FIREBASE.findMatch(key, "checkers");
 }
 
 /**
- * Salva la partida en firebase.
+ * Encuentra todas las partidas.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.findAllMatchsCheckers = function(){   
+	return FIREBASE.findAllMatchs(FIREBASE.table.games.checkers);
+}
+
+/**
+ * Salva la partida.
  * @param {Map} match Información de la partida.
  */
-FIREBASE.saveCheckersMatch = function(key, match) {
+FIREBASE.saveMatchCheckers = function(key, match) {
    return FIREBASE.table.games.checkers.child(key).update(match);
 }
 

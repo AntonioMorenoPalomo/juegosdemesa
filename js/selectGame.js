@@ -1,20 +1,21 @@
 $(document).ready(function() {
     // Buscamos todos los partidos y los cargamos
-    FIREBASE.findAllMatchsF1().then(_matchesFound, error).catch(error);
+    FIREBASE.findAllMatchsF1().then(_matchesFound("f1"), error).catch(error);
+    FIREBASE.findAllMatchsCheckers().then(_matchesFound("checkers"), error).catch(error);
 
+    // Perfil del usuario logueado
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           $("#welcome").text("Bienvenido " + user.displayName);
           $("#avatar").attr("src", user.photoURL ? user.photoURL : "img/defaultAvatar.jpg");
-          console.log(user.URL);
-          console.dir(user);
           $("#username").text(user.displayName);
-          console.dir(user);
         } else {
           console.log("No hay usuario conectado");
         }
     });
       
+    
+    // Onclicks
     $("#button").on("click", function() {
         console.log("Bu");
     });
@@ -29,9 +30,7 @@ $(document).ready(function() {
         }
 
         event = event || window.event;
-
         event.stopPropagation();
-
         return false;
     });
 
@@ -52,10 +51,8 @@ function logout() {
  * Muestra todos los partidos encontrados.
  * @param {Array} matches Listado de todas las partidas presentes.
  */
-function _matchesFound(matches) {
-    this._addMatch($("#matchesNew"), "-1", "Nueva partida", "img/add.svg", "<br>Nueva partida<br>", function() {
-        // alert("Creada... tu solo tienes que imaginarte un nuevo botón");
-    });
+function _matchesFound(matches, game) {
+    this._addMatch($("#matchesNew"), "-1", "Nueva partida", "img/add.svg", "<br>Nueva partida<br>", function() {});
     var user = firebase.auth().currentUser;
 
     matches.forEach(function(match) {
@@ -70,7 +67,45 @@ function _matchesFound(matches) {
         }
         
         if (machtList){
-            this._addMatch(machtList, match.key, "Formula 1", "img/cocheRojo.svg", description, function() {
+       		var nombre = "";
+    		var imagen = "";
+    		var html = "";
+    		
+        	if (game == "f1") {
+        		nombre = "Formula 1";
+        		imagen = "img/cocheRojo.svg";
+        		html = "f1";
+        		
+        		this._addMatch(machtList, match.key, nombre, imagen, description, function() {
+                    if (match.jugadorA  == "") {
+                       match.jugadorA  = user.displayName;
+                       FIREBASE.saveMatchF1(match.key, match);
+                    } else if (match.jugadorB  == "") {
+                       match.jugadorB  = user.displayName;
+                       FIREBASE.saveMatchF1(match.key, match);
+                    }
+                    window.location = html + ".html?key=" + match.key;             
+                });
+        	} 
+        	
+        	if (game == "checkers") {
+        		nombre = "Dama";
+        		imagen = "img/checkerDark.svg";
+        		html = "checkers";
+        		
+        		this._addMatch(machtList, match.key, nombre, imagen, description, function() {
+                    if (match.jugadorA  == "") {
+                       match.jugadorA  = user.displayName;
+                       FIREBASE.saveMatchCheckers(match.key, match);
+                    } else if (match.jugadorB  == "") {
+                       match.jugadorB  = user.displayName;
+                       FIREBASE.saveMatchCheckers(match.key, match);
+                    }
+                    window.location = html + ".html?key=" + match.key;             
+                });
+        	}
+        	
+        	this._addMatch(machtList, match.key, "", "img/checkerDark.svg", description, function() {
                 // Si es una partida con hueco libre, agregamos al usuario actual
                 if (match.jugadorA  == "") {
                    match.jugadorA  = user.displayName;
@@ -79,7 +114,7 @@ function _matchesFound(matches) {
                    match.jugadorB  = user.displayName;
                    FIREBASE.saveF1Match(match.key, match);
                 }
-                window.location = "f1.html?key=" + match.key;             
+                window.location = "checkers.html?key=" + match.key;             
             });
         }        
     });
@@ -99,9 +134,7 @@ function _addMatch(matchList, gameKey, gameName, gameImg, text, onclick) {
     var users = $("<div>", {html: text});
 
     button.append(image).append(users);
-
     if (onclick) button.on("click", onclick);
-
     matchList.append(button);
 }
 
@@ -110,6 +143,5 @@ function _addMatch(matchList, gameKey, gameName, gameImg, text, onclick) {
  * @param {Error} error Error producido durante la ejecución.
  */
 function error(error) {
-    console.error(error);
     console.log("Se ha producido un error: " + (typeof(error) == "object" ? error.message : error));
 }

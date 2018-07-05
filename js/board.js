@@ -14,8 +14,6 @@ function Board(horizontal, vertical = 1) {
 	}
 }
 
-
-
 /**
  * Guarda una casilla en la posicion indicada.
  * @param {Square} square Casilla a introducir.
@@ -27,7 +25,17 @@ Board.prototype.setSquare = function(square, horizontal, vertical = 1){
 }
 
 /**
- * Devuelve el Square seleccionado
+ * Guarda una pieza en la posicion indicada.
+ * @param {Square} square Casilla a introducir.
+ * @param {Number} horizontal Dimensión del tablero en horizontal.
+ * @param {Number} vertical Dimensión del tablero en vertical. Por defecto 1.
+ */
+Board.prototype.setPiece = function(piece, horizontal, vertical = 1){
+	this.board[horizontal][vertical].piece = piece;
+}
+
+/**
+ * Dadon un punto clickeado, devuelve que square ha presionado el usuario
  * @param {Number} horizontal Posición horizontal a buscar.
  * @param {Number} vertical Posición vertical a buscar. Por defecto 1.
  */
