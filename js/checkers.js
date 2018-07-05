@@ -4,12 +4,14 @@ var CHECKERS = CHECKERS || {};
 CHECKERS.board = new Board(7,7);
 
 function load() {
-	var match = FIREBASE.findCheckersMatch(key);
-	
-	// Recuperamos la partida si ya esta empezada
-	loadBoard(match.posiciones);
-
-	$(window).on("resize", repaintBoard);
+	// TODO: Cambiar por key obtenida de select game
+	FIREBASE.findCheckersMatch("-LGdYHE2O8PxUp1xdYqq").then(function(data) {
+		// Recuperamos la partida si ya esta empezada
+		if (data){
+			loadBoard(data[2]);	 // TODO: Hay que cambiarlo por data.key
+		}
+		$(window).on("resize", repaintBoard);
+    });
 }
 
 /**
@@ -18,12 +20,12 @@ function load() {
 function resetBoard() {
 	for (var h = 0; h < 8; h++) {
 		for (var v = 0; v < 8; v++) {
-			var square = new Square(h, h+1, v, v+1);
-			var piece = (h < 3) ? Piece.getWhitePiece() : 
-						(h > 4) ? Piece.getBlackPiece() : 
-						undefined;
+			//var square = new Square(h, h+1, v, v+1);
+			//var piece = (h < 3) ? Piece.getWhitePiece() : 
+//						(h > 4) ? Piece.getBlackPiece() : 
+//						undefined;
 
-			CHECKERS.board.setSquare(square, h, v + (v % 2), piece);
+			//CHECKERS.board.setSquare(square, h, v + (v % 2), piece);
 		}
 	}
 }
@@ -36,7 +38,7 @@ function loadBoard(posiciones) {
 	resetBoard(); 
 
 	for (var i = 0; i < posiciones.length; i++) {
-		CHECKERS.board.setSquare(posiciones[i][0], posiciones[i][1], posiciones[i][2]);
+		CHECKERS.board.setSquare(posiciones[i].h, posiciones[i].v, posiciones[i].c);
 	}
 }
 

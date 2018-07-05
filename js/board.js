@@ -6,11 +6,10 @@ function Board(horizontal, vertical = 1) {
 	this.lenghtHorizontal = horizontal;
 	this.lenghtVertical = vertical;
 
-	// Inizializate
 	for (var h = 0; h < this.lenghtHorizontal; h++) {
 		for (var v = 0; v < this.lenghtVertical; v++) {
-			board[h] = [];
-			board[h][v] = undefined;
+			this.board[h] = [];
+			this.board[h][v] = undefined;
 		}
 	}
 }
@@ -24,19 +23,19 @@ function Board(horizontal, vertical = 1) {
  * @param {Number} vertical Dimensión del tablero en vertical. Por defecto 1.
  */
 Board.prototype.setSquare = function(square, horizontal, vertical = 1){
-	board[horizontal][vertical] = square;
+	this.board[horizontal][vertical] = square;
 }
 
 /**
- * Devuelve la casilla seleccionada
+ * Devuelve el Square seleccionado
  * @param {Number} horizontal Posición horizontal a buscar.
  * @param {Number} vertical Posición vertical a buscar. Por defecto 1.
  */
-Board.prototype.findBox = function(horizontal, vertical = 1) {
+Board.prototype.findSquare = function(horizontal, vertical = 1) {
 	for (var h = 0; h < this.lenghtHorizontal; h++) {
 		for (var v = 0; v < this.lenghtVertical; v++) {
 			if (board[h][v] && board[h][v].inSquare(horizontal, vertical)) {
-				return board[h][v];
+				return this.board[h][v];
 			}
 		}
 	}
