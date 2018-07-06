@@ -347,62 +347,67 @@ FIREBASE.initializeDB = function() {
         jugadorA: "Jose",
         jugadorB: "Pepe",
         turno: "red",
-        posiciones: new Array({h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
-                     {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
-                     {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
-                     {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
-                     {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
-                     {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
-                     {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
+        posiciones: new Array({h:0,v:0,c:"white"},{h:0,v:2,c:"red"},{h:0,v:4,c:"red"},{h:0,v:6,c:"red"},
+		        			 {h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
+		                     {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
+		                     {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
+		                     {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
+		                     {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
+		                     {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
+		                     {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
     }
     var match2 = {
         jugadorA: "Jose",
         jugadorB: "Antonio",
         turno: "white",
-        posiciones: new Array({h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
-	                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
-	                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
-	                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
-	                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
-	                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
-	                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
+        posiciones: new Array({h:0,v:0,c:"white"},{h:0,v:2,c:"red"},{h:0,v:4,c:"red"},{h:0,v:6,c:"red"},
+			        		{h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
+			                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
+			                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
+			                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
+			                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
+			                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
+			                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
     }
     var match3 = {
         jugadorA: "Maria",
         jugadorB: "Antonio",
         turno: "red",
-        posiciones: new Array({h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
-	                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
-	                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
-	                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
-	                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
-	                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
-	                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
-		}
+        posiciones: new Array({h:0,v:0,c:"white"},{h:0,v:2,c:"red"},{h:0,v:4,c:"red"},{h:0,v:6,c:"red"},
+		        			{h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
+			                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
+			                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
+			                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
+			                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
+			                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
+			                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
+	}
     var match4 = {
         jugadorA: "",
         jugadorB: "Antonio",
         turno: "red",
-        posiciones: new Array({h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
-	                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
-	                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
-	                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
-	                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
-	                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
-	                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
+        posiciones: new Array({h:0,v:0,c:"white"},{h:0,v:2,c:"red"},{h:0,v:4,c:"red"},{h:0,v:6,c:"red"},
+			        		{h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
+			                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
+			                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
+			                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
+			                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
+			                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
+			                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
     }
     var match5 = {
         jugadorA: "Taos",
         jugadorB: "",
-        turno: "white",
-        posiciones: new Array({h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
-	                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
-	                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
-	                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
-	                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
-	                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
-	                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
-    }
+        turno: "red",
+        posiciones: new Array({h:0,v:0,c:"white"},{h:0,v:2,c:"red"},{h:0,v:4,c:"red"},{h:0,v:6,c:"red"},
+		        			{h:1,v:1,c:"white"},{h:1,v:3,c:"red"},{h:1,v:5,c:"red"},{h:1,v:7,c:"red"},
+			                {h:2,v:0,c:"white"},{h:2,v:2,c:"white"},{h:2,v:4,c:"white"},{h:2,v:6,c:"red"},
+			                {h:3,v:1,c:"red"},{h:3,v:3,c:"red"},{h:3,v:5,c:"white"},{h:3,v:7,c:"white"},
+			                {h:4,v:0,c:"red"},{h:4,v:2,c:"red"},{h:4,v:4,c:"white"},{h:4,v:6,c:"white"},
+			                {h:5,v:1,c:"red"},{h:5,v:3,c:"red"},{h:5,v:5,c:"white"},{h:5,v:7,c:"red"},
+			                {h:6,v:0,c:"red"},{h:6,v:2,c:"white"},{h:6,v:4,c:"red"},{h:6,v:6,c:"red"},
+			                {h:7,v:1,c:"red"},{h:7,v:3,c:"white"},{h:7,v:5,c:"red"},{h:7,v:7,c:"red"})
+	}
 
     FIREBASE.insertCheckersMatch(match1);
     FIREBASE.insertCheckersMatch(match2);
