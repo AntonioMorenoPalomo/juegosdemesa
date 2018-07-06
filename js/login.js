@@ -26,7 +26,6 @@ function loginFacebook() {
 }
 
 function loginGoogle() {
-	 console.log("Vamos con Google");
     FIREBASE.loginGoogle().then(successLogin, errorLogin).catch(function(error) {
     	 console.log("Se ha producido un error.\n" + error);
     });

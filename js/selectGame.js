@@ -104,18 +104,6 @@ function _matchesFound(matches, game) {
                     window.location = html + ".html?key=" + match.key;             
                 });
         	}
-        	
-        	this._addMatch(machtList, match.key, "", "img/checkerDark.svg", description, function() {
-                // Si es una partida con hueco libre, agregamos al usuario actual
-                if (match.jugadorA  == "") {
-                   match.jugadorA  = user.displayName;
-                   FIREBASE.saveF1Match(match.key, match);
-                } else if (match.jugadorB  == "") {
-                   match.jugadorB  = user.displayName;
-                   FIREBASE.saveF1Match(match.key, match);
-                }
-                window.location = "checkers.html?key=" + match.key;             
-            });
         }        
     });
 }

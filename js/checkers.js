@@ -9,6 +9,7 @@ CHECKERS.turn = "white";
 
 $(document).ready(function() {  
 	
+	initBoard();
 	var search = window.location.search;
 	
 	// Si la partida existe, la cargamos
@@ -23,15 +24,11 @@ $(document).ready(function() {
 			if (data){
 				CHECKERS.play1 = data[0];
 				CHECKERS.play2 = data[1];
-				CHECKERS.turn = data[2];
-				CHECKERS.key = data[3];
-				loadBoard(CHECKERS.key);
+				CHECKERS.turn = data[3];
+				loadBoard(data[2]);
 			}
 	    });  
 	} else {
-		// La partida es nueva, la creamos
-		initBoard();
-		
 		CHECKERS.play1 = "Prueba"; //firebase.auth().currentUser.displayName,
 		
 		var match = {
@@ -79,7 +76,9 @@ function loadBoard(posiciones) {
 	// Vaciamos tablero
 	for (var h = 0; h < 8; h++) {
 		for (var v = 0; v < 8; v++) {
-			CHECKERS.board.board[hor][ver].piece = undefined;
+			if ((CHECKERS.board.board[v][h]) && (CHECKERS.board.board[v][h].piece)){
+				CHECKERS.board.board[v][h].piece = undefined;	
+			}
 		}
 	}
 	

@@ -34,13 +34,13 @@ $(document).ready(function() {
 
 /**
  * Crea un nuevo usuario con su email y contraseña, y actualiza sus parametros opcionales.
- * @param {String} email Email que se desea registrar.
+ * @param {String} x6 Parametros del usuario
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.createUser = function(email, password, nick, urlAvatar, tlf, ciudad) {
+FIREBASE.createUser = function(email, password, nick, urlAvatar, phone, city) {
     var promise = new Promise(function (resolve, reject) {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
-            resolve(FIREBASE.updateUser(nick, urlAvatar, tlf, ciudad));
+            resolve(FIREBASE.updateUser(nick, urlAvatar, phone, city));
         });
     });
     return promise;
@@ -48,10 +48,7 @@ FIREBASE.createUser = function(email, password, nick, urlAvatar, tlf, ciudad) {
 
 /**
  * Actualiza los parametros de un usuario
- * @param {String} nick Alias que utilizará el usuario.
- * @param {String} urlAvatar URL de la imagen del avatar.
- * @param {String} phone Telefono del usuario.
- * @param {String} city Ciudad del usuario.
+ * @param {String} x4 parametros del usuario
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.updateUser = function(nick, urlAvatar, phone, city) {
@@ -148,7 +145,7 @@ FIREBASE.logout = function() {
 
 /**
  * Inserta una nueva partida.
- * @param {Map} match Información de una nueva partida de F1.
+ * @param {Map} match Información de una nueva partida.
  * @return {Promise} Devuelve la promesa de la actualización.
  */
 FIREBASE.insertMatch = function(match, ref) { 
