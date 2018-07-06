@@ -36,14 +36,6 @@ Square.prototype.inSquare = function(horizontal, vertical) {
 }
 
 // Getter and setters
-Square.prototype.setPiece = function(piece) {
-	this.piece = piece;
-}
-
-Square.prototype.getPiece = function() {
-	return this.piece;
-}
-
 Square.prototype.setAction = function(action) {
 	this.action = action;
 }

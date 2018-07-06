@@ -1,41 +1,46 @@
 
 var CHECKERS = CHECKERS || {};
 
-CHECKERS.board = new Board(7,7);
-CHECKERS.key = undefined;
-CHECKERS.play1 = undefined;
-CHECKERS.play2 = undefined;
+CHECKERS.board = new Board(8,8);
+CHECKERS.key = "";
+CHECKERS.play1 = "";
+CHECKERS.play2 = "";
 CHECKERS.turn = "white";
 
 $(document).ready(function() {  
 	
 	var search = window.location.search;
-	// Si la partida existe, la cargamos, si no existe, la creamos
+	
+	// Si la partida existe, la cargamos
 	if (search && search.indexOf("key=") >= 0) {
 		CHECKERS.key = search.substring(search.indexOf("key=") + 4);
 	
-	    if (key.indexOf("&") >= 0) {
-	    	CHECKERS.key = CHECKERS.key.substring(0, key.indexOf("&"));
+	    if (CHECKERS.key.indexOf("&") >= 0) {
+	    	CHECKERS.key = CHECKERS.key.substring(0, CHECKERS.key.indexOf("&"));
 	    }
 	    
-	    FIREBASE.findMatchCheckers(key).then(function(data) {
+	    FIREBASE.findMatchCheckers(CHECKERS.key).then(function(data) {
 			if (data){
 				CHECKERS.play1 = data[0];
 				CHECKERS.play2 = data[1];
 				CHECKERS.turn = data[2];
-				loadBoard(data[3]);	 // TODO: Hay que cambiarlo por data.key
+				CHECKERS.key = data[3];
+				loadBoard(CHECKERS.key);
 			}
 	    });  
 	} else {
+		// La partida es nueva, la creamos
 		initBoard();
 		
+		CHECKERS.play1 = "Prueba"; //firebase.auth().currentUser.displayName,
+		
 		var match = {
-            jugadorA: firebase.auth().currentUser.displayName,
+            jugadorA: CHECKERS.play1,
             jugadorB: "",
             turno: "white",
             posiciones: getPositionsBoard()
 	    };
-		FIREBASE.insertMatchCheckers(match);
+		CHECKERS.key = FIREBASE.insertMatchCheckers(match);
 	}
 	
 	// OnChanges
@@ -59,8 +64,10 @@ function initBoard() {
 						(h > 4) ? Piece.getBlackPiece() : 
 						undefined;
 			// TODO Hay que definir bien donde comienza y donde terminan los square
-			var square = new Square(h, h+1, v, v+1, piece, undefined); 				
-			CHECKERS.board.setSquare(square, h, v + (v % 2));
+			if ((((h % 2) == 0 ) && ((v % 2) == 0)) || (((h % 2) == 1) && ((v % 2) == 1))) {
+				var square = new Square(h, h+1, v, v+1, piece, undefined); 				
+				CHECKERS.board.setSquare(square, h, v);	
+			} 
 		}
 	}
 }
@@ -69,8 +76,16 @@ function initBoard() {
  * Carga la partida dada la lista de posiciones de todas las casillas
  */
 function loadBoard(posiciones) {
+	// Vaciamos tablero
+	for (var h = 0; h < 8; h++) {
+		for (var v = 0; v < 8; v++) {
+			CHECKERS.board.board[hor][ver].piece = undefined;
+		}
+	}
+	
+	// Cargamos piezas nuevas
 	for (var i = 0; i < posiciones.length; i++) {
-		CHECKERS.board.setPiece(posiciones[i].c, posiciones[i].h, posiciones[i].v);
+		CHECKERS.board.board[posiciones[i].h][posiciones[i].v].piece = posiciones[i].p;
 	}
 }
 
@@ -101,13 +116,15 @@ function getPositionsBoard() {
 	var positions = new Array();
 	for (var hor = 0; hor < 8; hor++) {
 		for (var ver = 0; ver < 8; ver++) {
-			var item = {
-				h: hor,
-				v: ver,
-				c: CHECKERS.board.getPiece(hor,ver)
+			if ((CHECKERS.board.board[hor][ver]) && (CHECKERS.board.board[hor][ver].piece)){
+				var item = {
+					h: hor,
+					v: ver,
+					p: CHECKERS.board.board[hor][ver].piece
+				}
+			
+				positions.push(item);
 			}
-		
-			positions.push(item);
 		}
 	}
 	return positions;
@@ -117,6 +134,6 @@ function getPositionsBoard() {
  * Salta turno al siguiente player
  */
 function nextTurn() {
-	CHECKERS.turn =  (CHECKERS.turn == "red") ? "white" : "red";
+	CHECKERS.turn =  (CHECKERS.turn == "black") ? "white" : "black";
 }
 

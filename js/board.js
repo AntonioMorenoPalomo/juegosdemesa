@@ -58,7 +58,7 @@ Board.prototype.setSquare = function(square, horizontal, vertical = 1){
  * @param {Number} vertical Dimensión del tablero en vertical. Por defecto 1.
  */
 Board.prototype.setPiece = function(piece, horizontal, vertical = 1){
-	this.board[horizontal][vertical].setPiece(piece);
+	this.board[horizontal][vertical].piece = piece;
 }
 
 /**
@@ -67,6 +67,6 @@ Board.prototype.setPiece = function(piece, horizontal, vertical = 1){
  * @param {Number} vertical Dimensión del tablero en vertical. Por defecto 1.
  */
 Board.prototype.getPiece = function(horizontal, vertical = 1){
-	this.board[horizontal][vertical].getPiece();
+	this.board[horizontal][vertical].piece;
 }
 
