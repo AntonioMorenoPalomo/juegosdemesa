@@ -175,16 +175,19 @@ function clickBoard(h,v) {
 			
 			// Si es reina se hara unas acciones, y si es normal otras
 			if (CHECKERS.board.board[h][v].piece.isKing()){
-				// TODO
-				// Mirar posibles movimientos, comiendo o no enemigos en medio
-				// Poner ficha roja en los posibles opciones	
 				
 				// Recorrido diagonal 1: arriba-derecha
 				var i = 1;
 				while ((CHECKERS.selectPiece.h + i < 7) && (CHECKERS.selectPiece.v + i < 7)){
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h + i][CHECKERS.selectPiece.v + i].piece != undefined) {
-						// TODO: hay ficha, mirar que hacer
-						return false;
+						
+						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
+						if (((CHECKERS.selectPiece.h + i + 1 ) < 7) &&  (CHECKERS.selectPiece.v + i + 1 ) < 7) && 
+									((CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v + i + 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
+										|| (CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v + i + 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
+								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h + i + 2][CHECKERS.selectPiece.v + i + 2].piece) ){
+							setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h + i + 2, CHECKERS.selectPiece.v + i + 2);
+						}	
 						
 					} else {
 						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h + i, CHECKERS.selectPiece.v + i);
@@ -197,8 +200,15 @@ function clickBoard(h,v) {
 				i = 1;
 				while ((CHECKERS.selectPiece.h + i < 7) && (CHECKERS.selectPiece.v - i > 0)){
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h + i][CHECKERS.selectPiece.v - i].piece != undefined) {
-						// TODO: hay ficha, mirar que hacer
-						return false;
+						
+						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
+						if (((CHECKERS.selectPiece.h + i + 1 ) < 7) &&  (CHECKERS.selectPiece.v - i - 1 ) > 0) && 
+									((CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v - i - 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
+										|| (CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v - i - 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
+								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h + i + 2][CHECKERS.selectPiece.v - i - 2].piece) ){
+							setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h + i + 2, CHECKERS.selectPiece.v - i - 2);
+						}	
+								  
 					} else {
 						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h + i, CHECKERS.selectPiece.v - i);
 					}
@@ -210,8 +220,15 @@ function clickBoard(h,v) {
 				i = 1;
 				while ((CHECKERS.selectPiece.h - i > 0) && (CHECKERS.selectPiece.v - i > 0)){
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h - i][CHECKERS.selectPiece.v - i].piece != undefined) {
-						// TODO: hay ficha, mirar que hacer
-						return false;
+						
+						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
+						if (((CHECKERS.selectPiece.h - i - 1 ) > 0) &&  (CHECKERS.selectPiece.v - i - 1 ) > 0) && 
+									((CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v - i - 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
+										|| (CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v - i - 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
+								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h - i - 2][CHECKERS.selectPiece.v - i - 2].piece) ){
+							setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h - i - 2, CHECKERS.selectPiece.v - i - 2);
+						}	
+								  
 					} else {
 						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h - i, CHECKERS.selectPiece.v - i);
 					}
@@ -223,8 +240,15 @@ function clickBoard(h,v) {
 				i = 1;
 				while ((CHECKERS.selectPiece.h - i > 0) && (CHECKERS.selectPiece.v + i < 7)){
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h - i][CHECKERS.selectPiece.v + i].piece != undefined) {
-						// TODO: hay ficha, mirar que hacer
-						return false;
+						
+						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
+						if (((CHECKERS.selectPiece.h - i - 1 ) > 0) &&  (CHECKERS.selectPiece.v + i + 1 ) < 7) && 
+									((CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v + i + 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
+										|| (CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v + i + 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
+								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h - i - 2][CHECKERS.selectPiece.v + i + 2].piece) ){
+							setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h - i - 2, CHECKERS.selectPiece.v + i + 2);
+						}	
+								  
 					} else {
 						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h - i, CHECKERS.selectPiece.v + i);
 					}
