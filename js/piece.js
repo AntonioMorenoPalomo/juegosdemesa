@@ -7,7 +7,7 @@ var PIECE = PIECE || {};
 PIECE.consts		= {};
 PIECE.consts.BLACK	= 1;
 PIECE.consts.WHITE	= 2; 
-PIECE.consts.RED	= 3;
+PIECE.consts.RED	= 3; // Este color se usara como lugares candidatos
 
  /**
   * Constructor de la clase

@@ -6,9 +6,19 @@ CHECKERS.key = "";
 CHECKERS.play1 = "";
 CHECKERS.play2 = "";
 CHECKERS.turn = "white";
+CHECKERS.colorPlayer = "";
+CHECKERS.selectPiece = { piece: undefined, h: 0, v: 0};
 
 $(document).ready(function() {  
 	
+	// Simulo que el usuario a clickeado sobre el tablero, y hemos captado sobre que casilla ha pulsado
+    $("#clickCases").on("click", function() {
+    	var horizontal = $("#horizontal").value();
+    	var vertical = $("#vertical").value();
+    	clickBoard(horizontal, vertical);
+    });
+    		
+    
 	initBoard();
 	var search = window.location.search;
 	
@@ -26,6 +36,8 @@ $(document).ready(function() {
 				CHECKERS.play2 = data[1];
 				CHECKERS.turn = data[3];
 				loadBoard(data[2]);
+				
+				CHECKERS.colorPlayer = (CHECKERS.play1 == firebase.auth().currentUser.displayName) ? "white" : "black";
 			}
 	    });  
 	} else {
@@ -136,3 +148,126 @@ function nextTurn() {
 	CHECKERS.turn =  (CHECKERS.turn == "black") ? "white" : "black";
 }
 
+
+/*
+ * El usuario ha clickeado sobre el tablero, y hemos capturado la posicion clickeada, actuamos en consecuencia
+ */
+function clickBoard(h,v) {	
+	
+	// Si no es turno de este usuario o no ha clickeado sobre una pieza, se le ignora 
+	if ((CHECKERS.turn == CHECKERS.colorPlayer) && (CHECKERS.board.board[h][v]) && (CHECKERS.board.board[h][v].piece)) {
+		
+		// Miramos si la pieza es suya, candidata, o del contrario
+		var color = CHECKERS.board.board[h][v].piece.isRed() ? "red" :
+						(CHECKERS.board.board[h][v].piece.isWhite() ? "white" : "black");
+		
+		if (color == "red"){
+			setPosition(undefined, CHECKERS.selectPiece.h, CHECKERS.selectPiece.v);
+			setPosition(CHECKERS.selectPiece.piece, h, v);
+			
+			// TODO: Si ha habido ficha enemiga en medio, eliminarla
+			// TODO: Si no hay mas movimientos, terminamos turno
+			
+		} else if ( color == CHECKERS.colorPlayer) {	
+			CHECKERS.selectPiece.piece = CHECKERS.board.board[h][v].piece;
+			CHECKERS.selectPiece.h = h;
+			CHECKERS.selectPiece.v = v;
+			
+			// Si es reina se hara unas acciones, y si es normal otras
+			if (CHECKERS.board.board[h][v].piece.isKing()){
+				// TODO
+				// Mirar posibles movimientos, comiendo o no enemigos en medio
+				// Poner ficha roja en los posibles opciones	
+				
+				// Recorrido diagonal 1: arriba-derecha
+				var i = 1;
+				while ((CHECKERS.selectPiece.h + i < 7) && (CHECKERS.selectPiece.v + i < 7)){
+					if (CHECKERS.board.board[CHECKERS.selectPiece.h + i][CHECKERS.selectPiece.v + i].piece != undefined) {
+						// TODO: hay ficha, mirar que hacer
+						return false;
+						
+					} else {
+						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h + i, CHECKERS.selectPiece.v + i);
+					}
+					
+					i++;
+				}
+				
+				// Recorrido diagonal 2: abajo-derecha
+				i = 1;
+				while ((CHECKERS.selectPiece.h + i < 7) && (CHECKERS.selectPiece.v - i > 0)){
+					if (CHECKERS.board.board[CHECKERS.selectPiece.h + i][CHECKERS.selectPiece.v - i].piece != undefined) {
+						// TODO: hay ficha, mirar que hacer
+						return false;
+					} else {
+						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h + i, CHECKERS.selectPiece.v - i);
+					}
+					
+					i++;
+				}
+				
+				// Recorrido diagonal 3: abajo-izquierda
+				i = 1;
+				while ((CHECKERS.selectPiece.h - i > 0) && (CHECKERS.selectPiece.v - i > 0)){
+					if (CHECKERS.board.board[CHECKERS.selectPiece.h - i][CHECKERS.selectPiece.v - i].piece != undefined) {
+						// TODO: hay ficha, mirar que hacer
+						return false;
+					} else {
+						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h - i, CHECKERS.selectPiece.v - i);
+					}
+					
+					i++;
+				}
+				
+				// Recorrido diagonal 4: arriba-izquierda
+				i = 1;
+				while ((CHECKERS.selectPiece.h - i > 0) && (CHECKERS.selectPiece.v + i < 7)){
+					if (CHECKERS.board.board[CHECKERS.selectPiece.h - i][CHECKERS.selectPiece.v + i].piece != undefined) {
+						// TODO: hay ficha, mirar que hacer
+						return false;
+					} else {
+						setPosition(Piece.getRedPiece(), CHECKERS.selectPiece.h - i, CHECKERS.selectPiece.v + i);
+					}
+					
+					i++;
+				}
+				
+				return true;
+				
+			} else { 
+				// Es una ficha normal, solo hay dos caminos posibles
+				
+				var vert1 = (CHECKERS.colorPlayer == "white") ? CHECKERS.selectPiece.v+1 : CHECKERS.selectPiece.v-1;
+				var vert2 = (CHECKERS.colorPlayer == "white") ? CHECKERS.selectPiece.v+2 : CHECKERS.selectPiece.v-2;
+				
+				// Camino 1, a la izquierda
+				if ((h>0)&&(CHECKERS.board.board[h-1][vert].piece)){  
+					
+					// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
+					if ((h>1) && ((CHECKERS.board.board[h-1][vert1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
+									|| (CHECKERS.board.board[h-1][vert1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
+							  && (!CHECKERS.board.board[h-2][vert2].piece) ){
+						setPosition(Piece.getRedPiece(), h-2, vert2);
+					}					
+				} else {
+					// Es un hueco libre, por lo que es una candidata
+					setPosition(Piece.getRedPiece(), h-1, vert1);
+				}
+				
+				// Camino 2, a la derecha
+				if ((h<7)&&(CHECKERS.board.board[h+1][vert].piece)){  
+					
+					// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
+					if ((h<6) && ((CHECKERS.board.board[h+1][vert1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
+									|| (CHECKERS.board.board[h+1][vert1].piece.isBlack() && CHECKERS.colorPlayer=="white"))
+							  && (!CHECKERS.board.board[h+2][vert2].piece) ){
+						setPosition(Piece.getRedPiece(), h+2, vert2);
+					}					
+				} else {
+					// Es un hueco libre, por lo que es una candidata
+					setPosition(Piece.getRedPiece(), h+1, vert1);
+				}				
+			}			
+		}
+	}
+}
