@@ -31,16 +31,14 @@ PopUp.CUSTOM_BUTTONS    = 2;
 * Abre la ventana con la información pasada en settings.
 */
 PopUp.prototype.load = function() {
-    var $this = this;
 
-    // Creamos la estructura de la ventana emergente
+	// Creamos la estructura de la ventana emergente
     var table = $("<table>", { id: "popup", class: "popup" });
     var thead = $("<thead>", { id: "popupTitle" });
     var tbody = $("<tbody>", { id: "popupBody" });
     var tfoot = $("<tfoot>", { id: "popupButtons" });
     var tr = $("<tr>");
     var td = $("<td>", { html: this.settings.titleText });
-    var body = null;
 
     // Creamos fondo oscuro
     this.background = $("<div>", { class: "backgroundPopup" });
@@ -116,13 +114,13 @@ PopUp.prototype._moveWindowToCenter = function() {
 * @return Devuelve una fila de la tabla (TR) que será el pie del PopUp con la botonera.
 */
 PopUp.prototype._createButtonPanel = function() {
-    var _this = this;
     var tr = $("<tr>");
     var td = $("<td>");
 
     switch (this.settings.buttonConfig) {
         case PopUp.OK_CANCEL_BUTTONS:
             td.append(this._createButton("Cancelar", this.settings.cancelButtonAction));
+            break;
 
         case PopUp.OK_BUTTON:
             td.append(this._createButton("Aceptar", this.settings.okButtonAction));
@@ -133,6 +131,8 @@ PopUp.prototype._createButtonPanel = function() {
                 td.append(this._createButton(this.settings.customButtonTexts[i], this.settings.customButtonActions[i]));
             }
             break;
+        default:
+        	break;
     }
 
     tr.append(td);

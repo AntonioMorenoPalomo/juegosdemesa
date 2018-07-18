@@ -17,7 +17,7 @@ function register() {
     var ciudad = $("#ciudad").val();
 
     FIREBASE.createUser(email, password, nick, urlAvatar, tlf, ciudad).then(successRegister, errorRegister).catch(function(error) {
-        alert("Se ha producido un error.\n" + error);
+        console.log("Se ha producido un error.\n" + error);
     });
 }
 

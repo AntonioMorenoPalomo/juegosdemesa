@@ -19,7 +19,7 @@ $(document).ready(function() {
     F1.store = FIREBASE.table.games.f1;   
     var search = window.location.search;
 
-    if (search && search.indexOf("key=") > 0) {
+    if (search && search.indexOf("key=") >= 0) {
         F1.matchKey = search.substring(search.indexOf("key=") + 4);
 
         if (F1.matchKey.indexOf("&") >= 0) {
@@ -35,7 +35,7 @@ function returnHome(){
 }
 
 function loadMatch(key) {
-    FIREBASE.findF1Match(key).then(function(data) {
+    FIREBASE.findMatchF1(key).then(function(data) {
         F1.match = data;
         repaintMatch(F1.match);
         detectChange();
@@ -70,7 +70,7 @@ function throwDice() {
         F1.match.turno = "Rojo";
     }
 
-    FIREBASE.saveF1Match(F1.matchKey, F1.match);    
+    FIREBASE.saveMatchF1(F1.matchKey, F1.match);    
     repaintMatch(F1.match);
 }
 

@@ -34,13 +34,13 @@ $(document).ready(function() {
 
 /**
  * Crea un nuevo usuario con su email y contraseña, y actualiza sus parametros opcionales.
- * @param {String} email Email que se desea registrar.
+ * @param {String} x6 Parametros del usuario
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.createUser = function(email, password, nick, urlAvatar, tlf, ciudad) {
+FIREBASE.createUser = function(email, password, nick, urlAvatar, phone, city) {
     var promise = new Promise(function (resolve, reject) {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
-            resolve(FIREBASE.updateUser(nick, urlAvatar, tlf, ciudad));
+            resolve(FIREBASE.updateUser(nick, urlAvatar, phone, city));
         });
     });
     return promise;
@@ -48,10 +48,7 @@ FIREBASE.createUser = function(email, password, nick, urlAvatar, tlf, ciudad) {
 
 /**
  * Actualiza los parametros de un usuario
- * @param {String} nick Alias que utilizará el usuario.
- * @param {String} urlAvatar URL de la imagen del avatar.
- * @param {String} phone Telefono del usuario.
- * @param {String} city Ciudad del usuario.
+ * @param {String} x4 parametros del usuario
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.updateUser = function(nick, urlAvatar, phone, city) {
@@ -127,7 +124,7 @@ FIREBASE.loginProvider = function(provider) {
         firebase.auth().signInWithPopup(provider).then(function(user) {
             resolve(FIREBASE.updateUser(user.user.displayName, user.user.photoURL, user.user.phoneNumber, ""));
         }).catch(function(error) {
-            alert("Se ha producido un error.\n" + error);
+            console.log("Se ha producido un error.\n" + error);
         });
     });
     
@@ -147,9 +144,22 @@ FIREBASE.logout = function() {
 // ##########################################
 
 /**
+ * Inserta una nueva partida.
+ * @param {Map} match Información de una nueva partida.
+ * @return {Promise} Devuelve la promesa de la actualización.
+ */
+FIREBASE.insertMatch = function(match, ref) { 
+    var newKey = ref.push().key;  
+    var updates = {};
+    updates[newKey] = match;  
+    ref.update(updates);
+    return newKey;
+}
+
+/**
  * Encuentra la partida indicada del juego indicado.
  * @param {String} key Clave del encuentro.
- * @param {String} key Clave del encuentro.
+ * @param {String} game Nombre del juego
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
 FIREBASE.findMatch = function(key, game) {    
@@ -175,33 +185,16 @@ FIREBASE.findMatch = function(key, game) {
     return promise; 
 }
 
-
-
-// ##########################################
-// ###              F1                    ###
-// ##########################################
-
 /**
- * Inserta una nueva partida de F1.
- * @param {Map} match Información de una nueva partida de F1.
- * @return {Promise} Devuelve la promesa de la actualización.
- */
-FIREBASE.insertMatchsF1 = function(match) { 
-    var newKey = FIREBASE.table.games.f1.push().key;  
-    var updates = {};
-    updates[newKey] = match;  
-    return FIREBASE.table.games.f1.update(updates);
-}
-
-/**
- * Encuentra todas las partidas de F1.
+ * Encuentra todas las partidas del juego indicado
+ * @param {String} ref Refrencia del juego
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findAllMatchsF1 = function(){   
+FIREBASE.findAllMatchs = function(ref){   
     var result = [];
 
     var promise = new Promise(function (resolve, reject) {
-        FIREBASE.table.games.f1.once("value", function(snapshot) {
+        ref.once("value", function(snapshot) {
             snapshot.forEach(function(data) {
                 var value = data.val();
                 value.key = data.key;
@@ -220,21 +213,42 @@ FIREBASE.findAllMatchsF1 = function(){
     return promise; 
 }
 
+// ##########################################
+// ###              F1                    ###
+// ##########################################
+
+/**
+ * Inserta una nueva partida de F1.
+ * @param {Map} match Información de una nueva partida de F1.
+ * @return {Promise} Devuelve la promesa de la actualización.
+ */
+FIREBASE.insertMatchsF1 = function(match) { 
+	return FIREBASE.insertMatch (match, FIREBASE.table.games.f1);
+}
+
+/**
+ * Encuentra todas las partidas de F1.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.findAllMatchsF1 = function(){   
+	return FIREBASE.findAllMatchs(FIREBASE.table.games.f1);
+}
+
 /**
  * Encuentra una partida de F1.
  * @param {String} key Clave del encuentro.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findF1Match = function(key){   
-    FIREBASE.findMatch(key, "f1");
+FIREBASE.findMatchF1 = function(key){   
+    return FIREBASE.findMatch(key, "f1");
 }
 
 /**
  * Salva la partida en firebase.
  * @param {Map} match Información de la partida.
  */
-FIREBASE.saveF1Match = function(key, match) {
-    FIREBASE.table.games.f1.child(key).update(match);
+FIREBASE.saveMatchF1 = function(key, match) {
+    return FIREBASE.table.games.f1.child(key).update(match);
 }
 
 
@@ -246,28 +260,33 @@ FIREBASE.saveF1Match = function(key, match) {
  * @param {Map} match Información de una nueva partida de F1.
  * @return {Promise} Devuelve la promesa de la actualización.
  */
-FIREBASE.insertCheckersMatch = function(match) { 
-    var newKey = FIREBASE.table.games.checkers.push().key;  
-    var updates = {};
-    updates[newKey] = match;  
-    return FIREBASE.table.games.checkers.update(updates);
+FIREBASE.insertMatchCheckers = function(match) { 
+	return FIREBASE.insertMatch(match, FIREBASE.table.games.checkers);
 }
 
 /**
- * Encuentra todas las partidas de Checkers.
+ * Encuentra una partida
  * @param {String} key Clave del encuentro.
  * @return {Promise} Devuelve la promesa de la ejecución.
  */
-FIREBASE.findCheckersMatch = function(key) {
-    FIREBASE.findMatch(key, "checkers");
+FIREBASE.findMatchCheckers = function(key) {
+   return FIREBASE.findMatch(key, "checkers");
 }
 
 /**
- * Salva la partida en firebase.
+ * Encuentra todas las partidas.
+ * @return {Promise} Devuelve la promesa de la ejecución.
+ */
+FIREBASE.findAllMatchsCheckers = function(){   
+	return FIREBASE.findAllMatchs(FIREBASE.table.games.checkers);
+}
+
+/**
+ * Salva la partida.
  * @param {Map} match Información de la partida.
  */
-FIREBASE.saveCheckersMatch = function(key, match) {
-    FIREBASE.table.games.checkers.child(key).update(match);
+FIREBASE.saveMatchCheckers = function(key, match) {
+   return FIREBASE.table.games.checkers.child(key).update(match);
 }
 
 
@@ -309,7 +328,7 @@ FIREBASE.initializeDB = function() {
         distanciaAzul: 0
     }
     var f1match5 = {
-        jugadorA: "Taos",
+        jugadorA: "Jose",
         jugadorB: "",
         turno: "Rojo", 
         distanciaRojo: 0,
@@ -325,59 +344,74 @@ FIREBASE.initializeDB = function() {
     var match1 = {
         jugadorA: "Jose",
         jugadorB: "Pepe",
-        turno: "red", 
-        posiciones: [(1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"white"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),,(1,1,"white"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"red")]
+        turno: "red",
+        posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
+		        			 {h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
+		                     {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
+		                     {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
+		                     {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
+		                     {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
+		                     {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
+		                     {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
     }
     var match2 = {
         jugadorA: "Jose",
         jugadorB: "Antonio",
-        turno: "white", 
-        distanciaRojo: 61,
-        posiciones: [(1,1,"white"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"white"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"white"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"white"),,(1,1,"red")]
-    }
+        turno: "white",
+        posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
+		        			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
+			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
+			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
+			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
+			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
+			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
+			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
+	}
     var match3 = {
         jugadorA: "Maria",
         jugadorB: "Antonio",
-        turno: "red", 
-        posiciones: [(1,1,"red"),(1,1,"red"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"red"),(1,1,"red"),,(1,1,"red"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"red"),,(1,1,"white")]
-    }
+        turno: "red",
+        posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
+			    			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
+			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
+			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
+			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
+			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
+			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
+			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
+	}
     var match4 = {
         jugadorA: "",
         jugadorB: "Antonio",
-        turno: "red", 
-        posiciones: [(1,1,"red"),(1,1,"white"),(1,1,"white"),(1,1,"white"),
-                     (1,1,"red"),(1,1,"white"),(1,1,"red"),,(1,1,"red")]
-    }
+        turno: "red",
+        posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
+			    			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
+			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
+			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
+			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
+			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
+			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
+			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
+	}
     var match5 = {
-        jugadorA: "Taos",
+        jugadorA: "Jose",
         jugadorB: "",
-        turno: "white", 
-        posiciones: [(1,1,"red"),(1,1,"white"),(1,1,"red"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"white"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"white"),(1,1,"red"),
-                     (1,1,"white"),(1,1,"red"),(1,1,"red"),(1,1,"red")]
-    }
+        turno: "red",
+        posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
+			    			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
+			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
+			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
+			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
+			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
+			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
+			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
+	}
 
-    FIREBASE.insertCheckersMatch(match1);
-    FIREBASE.insertCheckersMatch(match2);
-    FIREBASE.insertCheckersMatch(match3);
-    FIREBASE.insertCheckersMatch(match4);
-    FIREBASE.insertCheckersMatch(match5);
+    FIREBASE.insertMatchCheckers(match1);
+    FIREBASE.insertMatchCheckers(match2);
+    FIREBASE.insertMatchCheckers(match3);
+    FIREBASE.insertMatchCheckers(match4);
+    FIREBASE.insertMatchCheckers(match5);
     
 }
 
