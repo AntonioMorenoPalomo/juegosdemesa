@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // Buscamos todos los partidos y los cargamos
-    FIREBASE.findAllMatchsF1().then(_matchesFound("f1"), error).catch(error);
-    FIREBASE.findAllMatchsCheckers().then(_matchesFound("checkers"), error).catch(error);
+    FIREBASE.findAllMatchsF1().then(function(data){_matchesFound(data,"f1")}).catch(error);
+    FIREBASE.findAllMatchsCheckers().then(function(data){_matchesFound(data, "checkers")}).catch(error);
 
     // Perfil del usuario logueado
     firebase.auth().onAuthStateChanged(function(user) {

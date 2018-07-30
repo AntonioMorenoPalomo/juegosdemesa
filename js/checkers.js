@@ -50,15 +50,14 @@ $(document).ready(function() {
             posiciones: getPositionsBoard()
 	    };
 		CHECKERS.key = FIREBASE.insertMatchCheckers(match);
+
+		// OnChanges
+		FIREBASE.table.games.checkers.child(CHECKERS.key).on("value", function(snapshot) {
+			loadBoard(posiciones);
+			repaintBoard();
+		});
 	}
 	
-	// OnChanges
-	FIREBASE.table.games.checkers.store.child(CHECKERS.key).on("value", function(snapshot) {
-    	loadBoard(posiciones);
-        repaintBoard();
-    });
-	
-	repaintBoard();
 });
 
 $(window).on("resize", repaintBoard);
@@ -182,7 +181,7 @@ function clickBoard(h,v) {
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h + i][CHECKERS.selectPiece.v + i].piece != undefined) {
 						
 						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
-						if (((CHECKERS.selectPiece.h + i + 1 ) < 7) &&  (CHECKERS.selectPiece.v + i + 1 ) < 7) && 
+						if ( (((CHECKERS.selectPiece.h + i + 1 ) < 7) &&  (CHECKERS.selectPiece.v + i + 1 ) < 7) && 
 									((CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v + i + 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
 										|| (CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v + i + 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
 								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h + i + 2][CHECKERS.selectPiece.v + i + 2].piece) ){
@@ -202,7 +201,7 @@ function clickBoard(h,v) {
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h + i][CHECKERS.selectPiece.v - i].piece != undefined) {
 						
 						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
-						if (((CHECKERS.selectPiece.h + i + 1 ) < 7) &&  (CHECKERS.selectPiece.v - i - 1 ) > 0) && 
+						if ( (((CHECKERS.selectPiece.h + i + 1 ) < 7) &&  (CHECKERS.selectPiece.v - i - 1 ) > 0) && 
 									((CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v - i - 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
 										|| (CHECKERS.board.board[CHECKERS.selectPiece.h + i + 1][CHECKERS.selectPiece.v - i - 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
 								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h + i + 2][CHECKERS.selectPiece.v - i - 2].piece) ){
@@ -222,7 +221,7 @@ function clickBoard(h,v) {
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h - i][CHECKERS.selectPiece.v - i].piece != undefined) {
 						
 						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
-						if (((CHECKERS.selectPiece.h - i - 1 ) > 0) &&  (CHECKERS.selectPiece.v - i - 1 ) > 0) && 
+						if ( (((CHECKERS.selectPiece.h - i - 1 ) > 0) &&  (CHECKERS.selectPiece.v - i - 1 ) > 0) && 
 									((CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v - i - 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
 										|| (CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v - i - 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
 								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h - i - 2][CHECKERS.selectPiece.v - i - 2].piece) ){
@@ -242,7 +241,7 @@ function clickBoard(h,v) {
 					if (CHECKERS.board.board[CHECKERS.selectPiece.h - i][CHECKERS.selectPiece.v + i].piece != undefined) {
 						
 						// Nos encontramos una pieza, comprobamos si es del rival y si hay posibilidad tras ella
-						if (((CHECKERS.selectPiece.h - i - 1 ) > 0) &&  (CHECKERS.selectPiece.v + i + 1 ) < 7) && 
+						if ( (((CHECKERS.selectPiece.h - i - 1 ) > 0) &&  (CHECKERS.selectPiece.v + i + 1 ) < 7) && 
 									((CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v + i + 1].piece.isWhite() && CHECKERS.colorPlayer=="black") 
 										|| (CHECKERS.board.board[CHECKERS.selectPiece.h - i - 1][CHECKERS.selectPiece.v + i + 1].piece.isBlack() && CHECKERS.colorPlayer=="white")) 
 								  && (!CHECKERS.board.board[CHECKERS.selectPiece.h - i - 2][CHECKERS.selectPiece.v + i + 2].piece) ){

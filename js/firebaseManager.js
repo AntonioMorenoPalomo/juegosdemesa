@@ -348,8 +348,6 @@ FIREBASE.initializeDB = function() {
         posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
 		        			 {h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
 		                     {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
-		                     {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
-		                     {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
 		                     {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
 		                     {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
 		                     {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
@@ -361,8 +359,6 @@ FIREBASE.initializeDB = function() {
         posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
 		        			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
 			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
-			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
-			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
 			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
 			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
 			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
@@ -373,10 +369,8 @@ FIREBASE.initializeDB = function() {
         turno: "red",
         posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
 			    			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
-			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
 			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
 			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
-			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
 			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
 			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
 	}
@@ -385,12 +379,9 @@ FIREBASE.initializeDB = function() {
         jugadorB: "Antonio",
         turno: "red",
         posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
-			    			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
-			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
-			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
+			    		    {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
 			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
 			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
-			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
 			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
 	}
     var match5 = {
@@ -398,12 +389,8 @@ FIREBASE.initializeDB = function() {
         jugadorB: "",
         turno: "red",
         posiciones: new Array({h:0,v:0,p:{color: 2, king: false}},{h:0,v:2,p:{color: 2, king: false}},{h:0,v:4,p:{color: 2, king: false}},{h:0,v:6,p:{color: 2, king: false}},
-			    			{h:1,v:1,p:{color: 2, king: false}},{h:1,v:3,p:{color: 2, king: false}},{h:1,v:5,p:{color: 2, king: false}},{h:1,v:7,p:{color: 2, king: false}},
-			                {h:2,v:0,p:{color: 2, king: false}},{h:2,v:2,p:{color: 2, king: false}},{h:2,v:4,p:{color: 2, king: false}},{h:2,v:6,p:{color: 2, king: false}},
-			                {h:3,v:1,p:{color: 2, king: false}},{h:3,v:3,p:{color: 2, king: false}},{h:3,v:5,p:{color: 2, king: false}},{h:3,v:7,p:{color: 2, king: false}},
-			                {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
+			    		    {h:4,v:0,p:{color: 1, king: false}},{h:4,v:2,p:{color: 1, king: false}},{h:4,v:4,p:{color: 1, king: false}},{h:4,v:6,p:{color: 1, king: false}},
 			                {h:5,v:1,p:{color: 1, king: false}},{h:5,v:3,p:{color: 1, king: false}},{h:5,v:5,p:{color: 1, king: false}},{h:5,v:7,p:{color: 1, king: false}},
-			                {h:6,v:0,p:{color: 1, king: false}},{h:6,v:2,p:{color: 1, king: false}},{h:6,v:4,p:{color: 1, king: false}},{h:6,v:6,p:{color: 1, king: false}},
 			                {h:7,v:1,p:{color: 1, king: false}},{h:7,v:3,p:{color: 1, king: false}},{h:7,v:5,p:{color: 1, king: false}},{h:7,v:7,p:{color: 1, king: false}})
 	}
 
