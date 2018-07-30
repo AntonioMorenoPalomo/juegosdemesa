@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Pruebas de javascript</title>
+        
+        <!-- CSS -->
+        <link href="libs/bootstrap.min.css" rel="stylesheet">
+        <link href="css/f1.css" rel="stylesheet">
+        
+        <!-- Firebase y nuestro -->
+        <script src="libs/jquery-slim.min.js"></script>
+        <script src="libs/firebase.js"></script>
+        <script src="js/tokens.js"></script>
+        <script src="js/firebaseManager.js"></script>
+        
+        <script src="js/board.js"></script>
+        <script src="js/square.js"></script>
+        <script src="js/piece.js"></script>
+        
+        <script src="js/checkers.js"></script>
+    </head>
+
+    <body onload="">
+        <div style="margin: auto; width: 160px;">
+            <table>
+                <tr>
+                    <td>Horizontal</td>
+                    <td>
+                        <select id="horizontal">
+                            <option value="1">A</option>
+                            <option value="2">B</option>
+                            <option value="3">C</option>
+                            <option value="4">D</option>
+                            <option value="5">E</option>
+                            <option value="6">F</option>
+                            <option value="7">G</option>
+                            <option value="8">H</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vertical</td>
+                    <td>
+                        <select id="vertical">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    	<button id="clickCases" class="" type="submit">click</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
+</html>
